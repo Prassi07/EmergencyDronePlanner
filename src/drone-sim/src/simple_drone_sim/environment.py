@@ -13,7 +13,7 @@ class Environment:
     def __init__(self, list_of_target_dicts=[], max_omega=5, max_zvel=5,
                  init_x=None, init_y=None, init_z=None, init_psi=None,
                  K_p=0.01, K_p_z=0.01,
-                 vehicle_num=3, vehicle_l=3, hvel=5, vvel=2, n_rand_targets=-1, del_t=1,
+                 vehicle_num=3, vehicle_l=3, hvel=5, vvel=2, n_rand_targets=-1, n_rand_obst=-1, del_t=1,
                  waypt_threshold=5,
                  sensor_focal_length=5, sensor_width=10, sensor_height=10, sensor_a=1,
                  sensor_b=1, sensor_d=1, sensor_g=1, sensor_h=1, sensor_pitch=20, list_of_obstacle_dicts=[]):
@@ -54,7 +54,9 @@ class Environment:
 
         # if targets not specified, randomly generate between 1-10 targets
         self.n_rand_targets = random.randrange(1, 10) if not list_of_target_dicts and n_rand_targets == -1 else n_rand_targets
+        self.n_rand_obst = random.randrange(1, 10) if not list_of_obstacle_dicts and n_rand_obst == -1 else n_rand_obst
 
+        self.obstacles = self.generate_obstacles(list_of_obstacle_dicts, self.n_rand_obst)
         self.targets = self.generate_targets(list_of_target_dicts, self.n_rand_targets)
 
         self.global_waypt_list = [[] for i in range(vehicle_num)]
@@ -67,7 +69,6 @@ class Environment:
         self.vehicle = [self.init_vehicle(i) for i in range(self.vehicle_num)]
         self.sensor = self.init_sensor()
 
-        self.obstacles = self.generate_obstacles(list_of_obstacle_dicts)
 
         self.curr_waypt_num = 0
 
@@ -78,9 +79,21 @@ class Environment:
                     return True
         return False
 
-    def generate_obstacles(self, obsts):
+    def generate_obstacles(self, obsts, num_obst):
         if obsts is None or len(obsts) == 0:
-            return []
+            obstacles = [
+                Obstacle(
+                    id=idx,
+                    init_x=np.random.uniform(-600, 600),
+                    init_y=np.random.uniform(-600, 600),
+                    width=20.0,
+                    length=20.0,
+                    height=100.0,
+                    speed=0.0,
+                    hold_heading_time=1.
+                ) for idx in range(num_obst)
+            ]
+            return obstacles
         else:
             obstacles = [
                 Obstacle(
@@ -97,7 +110,7 @@ class Environment:
 
     def generate_targets(self, list_of_target_dicts, n_rand_targets=None):
         '''
-        Generates ships with initial positions
+        Generates landing zones with initial positions
         '''
 
         # when no targets specified
@@ -105,19 +118,30 @@ class Environment:
             if n_rand_targets is None:
                 raise ValueError(
                     "Passed in no targets but didn't pass in n_rand_targets")
-            targets = [
-                Target(
-                    id=idx,
-                    init_x=np.random.uniform(-600, 600),
-                    init_y=np.random.uniform(-600, 600),
-                    heading=np.random.uniform(0, 2 * 3.1416),
-                    linear_speed=np.random.normal(6, 2),
-                    angular_speed=np.random.normal(0, 0.001),
-                    linear_speed_std=0.05,
-                    angular_speed_std=0.01
-                )
-                for idx in range(n_rand_targets)
-            ]
+            targets = []
+            idx = 0
+            while idx < n_rand_targets:
+                init_x=np.random.uniform(-600, 600)
+                init_y=np.random.uniform(-600, 600)
+                
+                in_col = False
+                for obst in self.obstacles:
+                    if obst.is_in_collision(init_x, init_y, 0, 10.0):
+                        in_col = True
+                if not in_col:
+                    target = Target(
+                        id=idx,
+                        init_x=init_x,
+                        init_y=init_y,
+                        heading=np.random.uniform(0, 2 * 3.1416),
+                        linear_speed=0.0,
+                        angular_speed=0.0,
+                        linear_speed_std=0.05,
+                        angular_speed_std=0.01
+                    )
+                    targets.append(target)
+                    idx = idx + 1
+            return targets
         # when targets are specified
         else:
             targets = [

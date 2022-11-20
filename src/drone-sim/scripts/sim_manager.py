@@ -26,11 +26,18 @@ COLORS = [[230, 25, 75],   [60, 180, 75],   [255, 225, 25], [0, 130, 200],
                [128, 128, 0],   [255, 215, 180], [0, 0, 128],    [128, 128, 128],
                [255, 255, 255], [0, 0, 0]]
 def get_color(index):
-    r, g, b = COLORS[index % len(COLORS)]
     ros_color = ColorRGBA()
-    ros_color.r = 0 / 255.0
-    ros_color.g = 255.0 / 255.0
-    ros_color.b = 0 / 255.0
+    ros_color.r = 0.0
+    ros_color.g = 1.0
+    ros_color.b = 0.0
+    ros_color.a = 1.0
+    return  ros_color
+
+def get_color_target(index):
+    ros_color = ColorRGBA()
+    ros_color.r = 1.0
+    ros_color.g = 0.0
+    ros_color.b = 0.0
     ros_color.a = 1.0
     return  ros_color
 
@@ -64,6 +71,7 @@ class SimManager:
         vvel = rospy.get_param("/env_setup/vvel")
 
         n_rand_targets = rospy.get_param("/env_setup/n_rand_targets")
+        n_rand_obst =  rospy.get_param("/env_setup/n_rand_obst")
 
         del_t = rospy.get_param("/env_setup/del_t")
 
@@ -96,6 +104,7 @@ class SimManager:
                             hvel,
                             vvel,
                             n_rand_targets,
+                            n_rand_obst,
                             del_t,
                             waypt_threshold,
                             sensor_focal_length,
@@ -447,10 +456,10 @@ class SimManager:
             target_marker.header.stamp = time
             target_marker.ns = "target_pose"
             target_marker.id = idx
-            target_marker.type = Marker.MESH_RESOURCE
+            target_marker.type = Marker.CYLINDER
             target_marker.action = Marker.ADD
-            target_marker.mesh_use_embedded_materials = True
-            target_marker.mesh_resource = "package://simple_drone_sim/meshes/boat.dae"
+            # target_marker.mesh_use_embedded_materials = True
+            # target_marker.mesh_resource = "package://simple_drone_sim/meshes/boat.dae"
             target_marker.lifetime = rospy.Duration()
             quat = quaternion_from_euler(0, 0, target.heading)
             target_marker.pose = Pose(Point(target.x,
@@ -458,10 +467,10 @@ class SimManager:
                                             0),  # z offset to make it appear above grid-map
                                             Quaternion(quat[0], quat[1], quat[2], quat[3]))
 
-            target_marker.color = get_color(target.id)
-            target_marker.scale.x = 1
-            target_marker.scale.y = 1
-            target_marker.scale.z = 1
+            target_marker.color = get_color_target(target.id)
+            target_marker.scale.x = 10
+            target_marker.scale.y = 10
+            target_marker.scale.z = .1
             targets_marker_array.markers.append(target_marker)
 
         return targets_marker_array
