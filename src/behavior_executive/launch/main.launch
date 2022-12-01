@@ -2,4 +2,5 @@
       <include file="$(find simple_drone_sim)/launch/sim.launch" />
 
       <node name="behavior_executive_node" pkg="behavior_executive" type="behavior_executive_node.py" output="screen" respawn="false" />
+      <node name="dummy_planner" pkg="behavior_executive" type="dummy_planner.py" output="screen" respawn="false" />
 </launch>
