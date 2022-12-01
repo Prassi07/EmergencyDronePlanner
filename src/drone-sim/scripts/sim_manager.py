@@ -278,7 +278,7 @@ class SimManager:
             quat = quaternion_from_euler(0, 0, 0)
             obstacle_marker.pose = Pose(Point(obstacle.x,
                                             obstacle.y,
-                                            0),
+                                            obstacle.height / 2.0),
                                             Quaternion(quat[0], quat[1], quat[2], quat[3]))
 
             obstacle_marker.color = get_color(obstacle.id)

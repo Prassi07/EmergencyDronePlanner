@@ -14,8 +14,8 @@ vvel: 2  # vehicle z-velocity
 
 # number of random targets & obstalces
 # -1 if providing custom list of targets
-n_rand_targets: 100
-n_rand_obst: 100 
+n_rand_targets: 10
+n_rand_obst: 200 
 
 del_t: .02  # timestep between sim updates
 
