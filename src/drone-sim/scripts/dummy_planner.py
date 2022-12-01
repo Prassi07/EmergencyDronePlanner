@@ -44,7 +44,7 @@ class WaypointPub(object):
 
 
 if __name__ == "__main__":
-    rospy.init_node("imu_filter")
+    rospy.init_node("dummy_planner")
     node_ = WaypointPub()
     rate = rospy.Rate(0.3)
 

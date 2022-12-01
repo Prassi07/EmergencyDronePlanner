@@ -62,6 +62,8 @@ add_message_files(
   OdometryArray.msg
   EstimatedTargetStates.msg
   TargetCovariance.msg
+  Battery.msg
+  BatteryArray.msg
 )
 
 ## Generate services in the 'srv' folder

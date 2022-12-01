@@ -14,5 +14,5 @@
         <param name="planner_path" value="/global_path"/>
     </node>
 
-    <node name="dummy_planner" pkg="simple_drone_sim" type="dummy_planner.py" output="screen" respawn="false" />
+    <!-- <node name="dummy_planner" pkg="simple_drone_sim" type="dummy_planner.py" output="screen" respawn="false" /> -->
 </launch>
