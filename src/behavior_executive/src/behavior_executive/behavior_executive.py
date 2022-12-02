@@ -51,6 +51,8 @@ class BehaviorExecutive(object):
         self.lz_plans = msg
 
     def has_reached(self, wp, odom):
+        if wp is None or odom is None:
+            return False
         diff_x = abs(wp.position.position.x - odom.pose.position.x)
         diff_y = abs(wp.position.position.y - odom.pose.position.y)
         diff_z = abs(wp.position.position.z - odom.pose.position.z)

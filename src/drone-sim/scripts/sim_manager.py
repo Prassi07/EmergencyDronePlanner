@@ -8,7 +8,7 @@ from simple_drone_sim.msg import Plan, Waypoint, ObstaclePose, ObstacleArray, Po
 from simple_drone_sim.environment import *
 from geometry_msgs.msg import PoseStamped, Point, Pose, Quaternion, PoseArray
 from std_msgs.msg import ColorRGBA, Bool
-from nav_msgs.msg import Odometry
+from nav_msgs.msg import Odometry, OccupancyGrid
 from std_msgs.msg import UInt8
 from simple_drone_sim.msg import TargetPoses, TargetPose, Detections
 from tf.transformations import quaternion_from_euler
@@ -154,13 +154,45 @@ class SimManager:
             obst_pose.id = obst.id
             obst_pose.x = obst.x
             obst_pose.y = obst.y
-            obst_pose.width = obst.width + 50
-            obst_pose.length = obst.length + 50
-            obst_pose.height = obst.height + 50
+            obst_pose.width = obst.width
+            obst_pose.length = obst.length
+            obst_pose.height = obst.height
             obstacles.obstacles.append(obst_pose)
 
         return obstacles
 
+    def get_occupancy_grid(self, time, frame):
+        size = 1200.0 # m
+        resolution = 1  # 1 m
+
+        numX = int(size/resolution)
+        numY = int(size/resolution)
+
+        map_im = np.zeros(numX*numY, dtype=int)
+        for obst in self.sim_env.obstacles:
+            start_y = int((obst.y - obst.width/2. + size / 2)  / resolution)
+            end_y = int((obst.y + obst.width/2. + size / 2)  / resolution)
+            i = start_y
+            while i <= end_y:
+                start_x = int((obst.x - obst.length/2. + size / 2) / resolution)
+                end_x = int((obst.x + obst.length/2. + size / 2) / resolution)
+
+                start = i * numX + start_x
+                end = i * numX + end_x
+                map_im[start:end] = obst.height
+                i = i + 1
+
+        grid = OccupancyGrid()
+        grid.header.frame_id = frame
+        grid.header.stamp = time
+        grid.info.height = numY
+        grid.info.width = numX
+        grid.info.resolution = resolution
+        grid.info.origin.position.x = -size / 2
+        grid.info.origin.position.y = -size / 2
+        grid.data = map_im.tolist()
+
+        return grid
 
     def get_target_positions(self, time, frame):
         targets_pose = TargetPoses()
@@ -482,6 +514,7 @@ class SimManager:
         sensor_detections_pub = rospy.Publisher('/drone_sim/sensor_measurement', Detections, queue_size=10)
         camera_pose_pub = rospy.Publisher('/drone_sim/camera_pose', OdometryArray, queue_size=10)
         obstacle_pose_pub = rospy.Publisher('/drone_sim/obstacles', ObstacleArray, queue_size=10)
+        occ_grid_pub = rospy.Publisher('/drone_sim/occupancy_grid', OccupancyGrid, queue_size=10)
         vehicle_in_collision_pub = rospy.Publisher('/drone_sim/collision_detected', Bool, queue_size=10)
 
         # Marker Publishers
@@ -531,6 +564,7 @@ class SimManager:
             sensor_detections_pub.publish(target_detections)
             camera_pose_pub.publish(camera_pose)
             obstacle_pose_pub.publish(self.get_obstacle_positions(time, frame))
+            occ_grid_pub.publish(self.get_occupancy_grid(time, frame))
 
             vehicle_marker_pub.publish(self.get_vehicle_marker(time, frame, vehicle_position))
             projection_marker_pub.publish(self.get_projection_marker(time, frame, vehicle_position, camera_projection))
