@@ -162,8 +162,8 @@ class SimManager:
         return obstacles
 
     def get_occupancy_grid(self, time, frame):
-        size = 1200.0 # m
-        resolution = 1  # 1 m
+        size = 1500.0 # m
+        resolution = 1.0  # 1 m
 
         numX = int(size/resolution)
         numY = int(size/resolution)
@@ -514,7 +514,7 @@ class SimManager:
         sensor_detections_pub = rospy.Publisher('/drone_sim/sensor_measurement', Detections, queue_size=10)
         camera_pose_pub = rospy.Publisher('/drone_sim/camera_pose', OdometryArray, queue_size=10)
         obstacle_pose_pub = rospy.Publisher('/drone_sim/obstacles', ObstacleArray, queue_size=10)
-        occ_grid_pub = rospy.Publisher('/drone_sim/occupancy_grid', OccupancyGrid, queue_size=10)
+        occ_grid_pub = rospy.Publisher('/drone_sim/occupancy_grid', OccupancyGrid, queue_size=10, latch=True)
         vehicle_in_collision_pub = rospy.Publisher('/drone_sim/collision_detected', Bool, queue_size=10)
 
         # Marker Publishers
@@ -537,6 +537,8 @@ class SimManager:
         time_since_last_write = start_time
 
         collision_detected = False
+
+        published_grid = False
 
         while not rospy.is_shutdown():
             time = rospy.Time.now()
@@ -564,7 +566,9 @@ class SimManager:
             sensor_detections_pub.publish(target_detections)
             camera_pose_pub.publish(camera_pose)
             obstacle_pose_pub.publish(self.get_obstacle_positions(time, frame))
-            occ_grid_pub.publish(self.get_occupancy_grid(time, frame))
+            if not published_grid:
+                occ_grid_pub.publish(self.get_occupancy_grid(time, frame))
+                published_grid = True
 
             vehicle_marker_pub.publish(self.get_vehicle_marker(time, frame, vehicle_position))
             projection_marker_pub.publish(self.get_projection_marker(time, frame, vehicle_position, camera_projection))

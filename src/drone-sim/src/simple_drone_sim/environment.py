@@ -136,8 +136,8 @@ class Environment:
                         heading=np.random.uniform(0, 2 * 3.1416),
                         linear_speed=0.0,
                         angular_speed=0.0,
-                        linear_speed_std=0.05,
-                        angular_speed_std=0.01
+                        linear_speed_std=0.0,
+                        angular_speed_std=0.0
                     )
                     targets.append(target)
                     idx = idx + 1
