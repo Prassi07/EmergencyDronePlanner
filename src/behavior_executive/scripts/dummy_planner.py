@@ -4,15 +4,14 @@ import rospy
 from geometry_msgs.msg import PoseStamped
 from simple_drone_sim.msg import Plan, Waypoint, PoseStampedArray
 
+
 class WaypointPub(object):
     def __init__(self):
-        self._waypoint_pub = rospy.Publisher(
-            "/planning/global", Plan, queue_size=10
-        )
+        self._waypoint_pub = rospy.Publisher("/planning/global", Plan, queue_size=10)
 
-        x_points = [300., 350., 300., 350.]
-        y_points = [500., 300., 450., 100.]
-        z_points = [20., 25., 35., 25.]
+        x_points = [300.0, 350.0, 300.0, 350.0]
+        y_points = [500.0, 300.0, 450.0, 100.0]
+        z_points = [20.0, 25.0, 35.0, 25.0]
 
         self.plan = Plan()
 
@@ -35,7 +34,6 @@ class WaypointPub(object):
             self._waypoint_pub.publish(self.plan)
             print("sending path!")
             self.sent = self.sent + 1
-
 
 
 if __name__ == "__main__":

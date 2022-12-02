@@ -4,7 +4,6 @@ import rospy
 from behavior_executive.behavior_executive import BehaviorExecutive
 
 
-
 if __name__ == "__main__":
     rospy.init_node("dummy_planner")
     node_ = BehaviorExecutive()
