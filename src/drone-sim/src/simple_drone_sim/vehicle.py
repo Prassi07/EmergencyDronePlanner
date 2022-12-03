@@ -101,14 +101,12 @@ class Vehicle:
         sigma_theta = 0.1
         return [sigma_x, sigma_y, sigma_z, sigma_psi, sigma_phi, sigma_theta]
 
-
     def update_battery(self, time):
-        battery_delta = -0.1
+        battery_delta = -0.4
         elapsed_time = (time - self.battery_time).to_sec()
-        updated_battery = self.battery - battery_delta*elapsed_time
+        updated_battery = self.battery + battery_delta * elapsed_time
+        if updated_battery <= 0.0:
+            updated_battery = 0.0
         self.battery = updated_battery
-        self.battery_time = time 
+        self.battery_time = time
         return updated_battery
-
-
-

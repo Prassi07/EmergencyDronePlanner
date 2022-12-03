@@ -24,6 +24,9 @@ class SimInterface(object):
     def get_vehicle_odom(self):
         return self.odom
 
+    def get_vehicle_battery(self):
+        return self.battery
+
     def send_plan(self, plan):
         plan.vehicle_id = self.veh_id
         self._waypoint_pub.publish(plan)

@@ -34,6 +34,10 @@ class BehaviorExecutive(object):
             "/behavior_executive/distance_to_wp", Float32, queue_size=10
         )
 
+        self._battery_remain_pub = rospy.Publisher(
+            "/behavior_executive/battery", Float32, queue_size=10
+        )
+
         self._global_plan_sub = rospy.Subscriber(
             "/planning/global", Plan, self.global_path_callback
         )
@@ -110,6 +114,11 @@ class BehaviorExecutive(object):
             rospy.logerr(
                 "BehaviorExecutive: Invalid state reached! State: {}".format(self.state)
             )
+
+        bat = self.sim_interface.get_vehicle_battery()
+
+        if bat is not None:
+            self._battery_remain_pub.publish(Float32(bat.percent))
 
     def run(self):
         self.publish_next_waypoint()
