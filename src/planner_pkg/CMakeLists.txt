@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
+  simple_drone_sim
 )
 
 ## System dependencies are found with CMake's conventions
