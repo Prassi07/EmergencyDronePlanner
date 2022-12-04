@@ -9,9 +9,9 @@ class WaypointPub(object):
     def __init__(self):
         self._waypoint_pub = rospy.Publisher("/planning/global", Plan, queue_size=10)
 
-        x_points = [300.0, 500.0, 500.0, 100.0]
-        y_points = [500.0, 500.0, 100.0, 100.0]
-        z_points = [20.0, 25.0, 35.0, 25.0]
+        x_points = [0, 300, 300, 500, 500, 100, 0]
+        y_points = [0, 0, 500, 500, 100, 100, 100]
+        z_points = [20, 20, 20, 20, 25, 35, 25]
 
         self.plan = Plan()
 
@@ -39,7 +39,7 @@ class WaypointPub(object):
 if __name__ == "__main__":
     rospy.init_node("dummy_planner")
     node_ = WaypointPub()
-    rate = rospy.Rate(1.0)
+    rate = rospy.Rate(1)
 
     while not rospy.is_shutdown():
         node_.run()

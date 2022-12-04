@@ -372,7 +372,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: Map
-      Topic: /drone_sim/occupancy_grid
+      Topic: /drone_sim/coverage_grid
       Unreliable: false
       Use Timestamp: false
       Value: true

@@ -49,9 +49,16 @@ class SimManager:
         self.planner_path_topic = rospy.get_param("~planner_path")
         self.sim_env = self.env_setup()
         self.vehicle_traj_list = [[] for v in range(self.sim_env.vehicle_num)]
+        
+        self.map_size = 1500.0 # meters
+        self.map_resolution = 1.0  # meters
+        self.coverage_size = 50.0 # meters
+        self.covered_value = 50.0
+        self.map_voxels = int(self.map_size / self.map_resolution)
+        self.coverage_map = np.zeros(self.map_voxels**2, dtype=int)
 
     def env_setup(self):
-        # ships
+        # landing zones
         targets_list = rospy.get_param("/env_setup/targets", [])
 
         # obstacles
@@ -145,6 +152,35 @@ class SimManager:
 
         v_poses.poses = poses_array
         return v_poses
+    
+    def get_coverage_grid(self, time, frame):
+        for id_num in range(self.sim_env.vehicle_num):
+            x = self.sim_env.vehicle[id_num].x
+            y = self.sim_env.vehicle[id_num].y
+            start_y = int((y - self.coverage_size / 2. + self.map_size / 2)  / self.map_resolution)
+            end_y = int((y + self.coverage_size / 2. + self.map_size / 2)  / self.map_resolution)
+            i = start_y
+            while i <= end_y:
+                start_x = int((x - self.coverage_size / 2. + self.map_size / 2) / self.map_resolution)
+                end_x = int((x + self.coverage_size / 2. + self.map_size / 2) / self.map_resolution)
+
+                start = i * self.map_voxels + start_x
+                end = i * self.map_voxels + end_x
+                self.coverage_map[start:end][self.coverage_map[start:end] <= self.covered_value] = self.covered_value
+                i = i + 1
+
+        grid = OccupancyGrid()
+        grid.header.frame_id = frame
+        grid.header.stamp = time
+        grid.info.height = self.map_voxels
+        grid.info.width = self.map_voxels
+        grid.info.resolution = self.map_resolution
+        grid.info.origin.position.x = -self.map_size / 2
+        grid.info.origin.position.y = -self.map_size / 2
+        grid.data = self.coverage_map.tolist()
+
+        return grid
+
 
     def get_obstacle_positions(self, time, frame):
         obstacles = ObstacleArray()
@@ -164,35 +200,28 @@ class SimManager:
         return obstacles
 
     def get_occupancy_grid(self, time, frame):
-        size = 1500.0 # m
-        resolution = 1.0  # 1 m
-
-        numX = int(size/resolution)
-        numY = int(size/resolution)
-
-        map_im = np.zeros(numX*numY, dtype=int)
         for obst in self.sim_env.obstacles:
-            start_y = int((obst.y - obst.width/2. + size / 2)  / resolution)
-            end_y = int((obst.y + obst.width/2. + size / 2)  / resolution)
+            start_y = int((obst.y - obst.width/2. + self.map_size / 2)  / self.map_resolution)
+            end_y = int((obst.y + obst.width/2. + self.map_size / 2)  / self.map_resolution)
             i = start_y
             while i <= end_y:
-                start_x = int((obst.x - obst.length/2. + size / 2) / resolution)
-                end_x = int((obst.x + obst.length/2. + size / 2) / resolution)
+                start_x = int((obst.x - obst.length/2. + self.map_size / 2) / self.map_resolution)
+                end_x = int((obst.x + obst.length/2. + self.map_size / 2) / self.map_resolution)
 
-                start = i * numX + start_x
-                end = i * numX + end_x
-                map_im[start:end] = obst.height
+                start = i * self.map_voxels + start_x
+                end = i * self.map_voxels + end_x
+                self.coverage_map[start:end] = obst.height
                 i = i + 1
 
         grid = OccupancyGrid()
         grid.header.frame_id = frame
         grid.header.stamp = time
-        grid.info.height = numY
-        grid.info.width = numX
-        grid.info.resolution = resolution
-        grid.info.origin.position.x = -size / 2
-        grid.info.origin.position.y = -size / 2
-        grid.data = map_im.tolist()
+        grid.info.height = self.map_voxels
+        grid.info.width = self.map_voxels
+        grid.info.resolution = self.map_resolution
+        grid.info.origin.position.x = -self.map_size / 2
+        grid.info.origin.position.y = -self.map_size / 2
+        grid.data = self.coverage_map.tolist()
 
         return grid
 
@@ -521,7 +550,6 @@ class SimManager:
             battery_array.vehicles.append(battery)
 
         return battery_array
-        # return battery
 
 
     def main(self):
@@ -532,9 +560,9 @@ class SimManager:
         camera_pose_pub = rospy.Publisher('/drone_sim/camera_pose', OdometryArray, queue_size=10)
         obstacle_pose_pub = rospy.Publisher('/drone_sim/obstacles', ObstacleArray, queue_size=10)
         occ_grid_pub = rospy.Publisher('/drone_sim/occupancy_grid', OccupancyGrid, queue_size=10, latch=True)
+        coverage_grid_pub = rospy.Publisher('/drone_sim/coverage_grid', OccupancyGrid, queue_size=10)
         vehicle_in_collision_pub = rospy.Publisher('/drone_sim/collision_detected', Bool, queue_size=10)
         vehicle_battery_pub = rospy.Publisher('/drone_sim/vehicle_battery', BatteryArray, queue_size=10)
-        # vehicle_battery_pub = rospy.Publisher('/drone_sim/vehicle_battery', Battery, queue_size=10)
 
         # Marker Publishers
         vehicle_marker_pub = rospy.Publisher('/drone_sim/markers/vehicle_pose', MarkerArray, queue_size=10)
@@ -547,11 +575,6 @@ class SimManager:
         waypt_sub = rospy.Subscriber(self.planner_path_topic, Plan, self.planner_callback)
         rate = rospy.Rate(1/self.sim_env.del_t)
         counter = 0
-
-        # filename = "./data/" + rospy.get_param('/experiment', 'blank_sim_manager') + "_target_positions.csv"
-        # with open(filename, 'w') as f:
-        #     f.write("time_stamp,target_id,x,y,heading,linear_speed,angular_speed\n")
-
         start_time = rospy.Time.now()
         time_since_last_write = start_time
 
@@ -564,18 +587,7 @@ class SimManager:
             frame = "local_enu"
             vehicle_position = self.get_vehicle_position(time, frame)
             target_positions = self.get_target_positions(time, frame)
-
-            # if rospy.Time.now() - time_since_last_write > rospy.Duration(10):
-            #     with open(filename, 'a') as f:
-            #         timestamp = rospy.Time.now()
-            #         for t in target_positions.targets:
-            #             f.write(str(timestamp.to_sec()) + "," + str(t.id) + "," + str(t.x) + "," + str(t.y) + "," + str(t.heading) + "," + str(t.linear_speed) + "," + str(t.angular_speed) + "\n")
-            #         time_since_last_write = timestamp
-
-
             target_detections, camera_projection = self.get_target_detections(time, frame)
-            # import code; code.interact(local=locals())
-
             camera_pose = self.get_camera_pose(time, frame)
             waypoint_number  = self.get_waypt_num()
 
@@ -585,13 +597,13 @@ class SimManager:
             sensor_detections_pub.publish(target_detections)
             camera_pose_pub.publish(camera_pose)
             obstacle_pose_pub.publish(self.get_obstacle_positions(time, frame))
+            coverage_grid_pub.publish(self.get_coverage_grid(time, frame))
             if not published_grid:
                 occ_grid_pub.publish(self.get_occupancy_grid(time, frame))
                 published_grid = True
 
             # publish battery_pub
             vehicle_battery_pub.publish(self.get_vehicle_battery(time))
-
             vehicle_marker_pub.publish(self.get_vehicle_marker(time, frame, vehicle_position))
             projection_marker_pub.publish(self.get_projection_marker(time, frame, vehicle_position, camera_projection))
             projection_points_marker_pub.publish(self.get_projection_points_marker(time, frame, vehicle_position, camera_projection))
