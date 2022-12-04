@@ -38,6 +38,10 @@ class BehaviorExecutive(object):
             "/behavior_executive/battery", Float32, queue_size=10
         )
 
+        self._wp_number_pub = rospy.Publisher(
+            "/behavior_executive/waypoint_number", Float32, queue_size=10
+        )
+
         self._global_plan_sub = rospy.Subscriber(
             "/planning/global", Plan, self.global_path_callback
         )
@@ -105,6 +109,10 @@ class BehaviorExecutive(object):
                                 self.wp_num
                             )
                         )
+
+                    self._wp_number_pub.publish(
+                        Float32(data=self.wp_num % len(self.global_plan.plan))
+                    )
         elif self.state == BehaviorStates.GO_TO_LZ:
             if self.at_lz():
                 self.state = BehaviorStates.LAND

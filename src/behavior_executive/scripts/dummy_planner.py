@@ -9,9 +9,9 @@ class WaypointPub(object):
     def __init__(self):
         self._waypoint_pub = rospy.Publisher("/planning/global", Plan, queue_size=10)
 
-        x_points = [0, 300, 300, 500, 500, 100, 0]
-        y_points = [0, 0, 500, 500, 100, 100, 100]
-        z_points = [20, 20, 20, 20, 25, 35, 25]
+        x_points = [300, 300, 500, 500, 100, 0, 0]
+        y_points = [0, 500, 500, 100, 100, 100, 0]
+        z_points = [20, 20, 20, 20, 20, 20, 20]
 
         self.plan = Plan()
 

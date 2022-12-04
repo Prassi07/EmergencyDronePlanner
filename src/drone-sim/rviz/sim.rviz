@@ -3,8 +3,7 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /Grid1
+      Expanded: ~
       Splitter Ratio: 0.6528066396713257
     Tree Height: 1079
   - Class: rviz/Selection
@@ -50,14 +49,6 @@ Visualization Manager:
       Plane Cell Count: 30
       Reference Frame: <Fixed Frame>
       Value: true
-    - Class: rviz/Marker
-      Enabled: false
-      Marker Topic: /drone_sim/markers/ocean_plane
-      Name: Ocean
-      Namespaces:
-        {}
-      Queue Size: 100
-      Value: false
     - Class: rviz/MarkerArray
       Enabled: true
       Marker Topic: /drone_sim/markers/targets
@@ -74,263 +65,10 @@ Visualization Manager:
         obstacle_pose: true
       Queue Size: 100
       Value: true
-    - Angle Tolerance: 0.10000000149011612
-      Class: rviz/Odometry
-      Covariance:
-        Orientation:
-          Alpha: 0.5
-          Color: 255; 255; 127
-          Color Style: Unique
-          Frame: Local
-          Offset: 1
-          Scale: 1
-          Value: true
-        Position:
-          Alpha: 0.30000001192092896
-          Color: 204; 51; 204
-          Scale: 1
-          Value: true
-        Value: true
-      Enabled: true
-      Keep: 50
-      Name: Target 0 Estimate
-      Position Tolerance: 0.10000000149011612
-      Queue Size: 10
-      Shape:
-        Alpha: 1
-        Axes Length: 1
-        Axes Radius: 0.10000000149011612
-        Color: 255; 25; 0
-        Head Length: 0.30000001192092896
-        Head Radius: 0.10000000149011612
-        Shaft Length: 1
-        Shaft Radius: 0.05000000074505806
-        Value: Arrow
-      Topic: /target_state_estimate_0
-      Unreliable: false
-      Value: true
-    - Angle Tolerance: 0.10000000149011612
-      Class: rviz/Odometry
-      Covariance:
-        Orientation:
-          Alpha: 0.5
-          Color: 255; 255; 127
-          Color Style: Unique
-          Frame: Local
-          Offset: 1
-          Scale: 1
-          Value: true
-        Position:
-          Alpha: 0.30000001192092896
-          Color: 204; 51; 204
-          Scale: 1
-          Value: true
-        Value: true
-      Enabled: true
-      Keep: 50
-      Name: Target 1 Estimate
-      Position Tolerance: 0.10000000149011612
-      Queue Size: 10
-      Shape:
-        Alpha: 1
-        Axes Length: 1
-        Axes Radius: 0.10000000149011612
-        Color: 255; 25; 0
-        Head Length: 0.30000001192092896
-        Head Radius: 0.10000000149011612
-        Shaft Length: 1
-        Shaft Radius: 0.05000000074505806
-        Value: Arrow
-      Topic: /target_state_estimate_1
-      Unreliable: false
-      Value: true
-    - Angle Tolerance: 0.10000000149011612
-      Class: rviz/Odometry
-      Covariance:
-        Orientation:
-          Alpha: 0.5
-          Color: 255; 255; 127
-          Color Style: Unique
-          Frame: Local
-          Offset: 1
-          Scale: 1
-          Value: true
-        Position:
-          Alpha: 0.30000001192092896
-          Color: 204; 51; 204
-          Scale: 1
-          Value: true
-        Value: true
-      Enabled: true
-      Keep: 50
-      Name: Target 2 Estimate
-      Position Tolerance: 0.10000000149011612
-      Queue Size: 10
-      Shape:
-        Alpha: 1
-        Axes Length: 1
-        Axes Radius: 0.10000000149011612
-        Color: 255; 25; 0
-        Head Length: 0.30000001192092896
-        Head Radius: 0.10000000149011612
-        Shaft Length: 1
-        Shaft Radius: 0.05000000074505806
-        Value: Arrow
-      Topic: /target_state_estimate_2
-      Unreliable: false
-      Value: true
-    - Angle Tolerance: 0.10000000149011612
-      Class: rviz/Odometry
-      Covariance:
-        Orientation:
-          Alpha: 0.5
-          Color: 255; 255; 127
-          Color Style: Unique
-          Frame: Local
-          Offset: 1
-          Scale: 1
-          Value: true
-        Position:
-          Alpha: 0.30000001192092896
-          Color: 204; 51; 204
-          Scale: 1
-          Value: true
-        Value: true
-      Enabled: true
-      Keep: 50
-      Name: Target 3 Estimate
-      Position Tolerance: 0.10000000149011612
-      Queue Size: 10
-      Shape:
-        Alpha: 1
-        Axes Length: 1
-        Axes Radius: 0.10000000149011612
-        Color: 255; 25; 0
-        Head Length: 0.30000001192092896
-        Head Radius: 0.10000000149011612
-        Shaft Length: 1
-        Shaft Radius: 0.05000000074505806
-        Value: Arrow
-      Topic: /target_state_estimate_3
-      Unreliable: false
-      Value: true
-    - Angle Tolerance: 0.10000000149011612
-      Class: rviz/Odometry
-      Covariance:
-        Orientation:
-          Alpha: 0.5
-          Color: 255; 255; 127
-          Color Style: Unique
-          Frame: Local
-          Offset: 1
-          Scale: 1
-          Value: true
-        Position:
-          Alpha: 0.30000001192092896
-          Color: 204; 51; 204
-          Scale: 1
-          Value: true
-        Value: true
-      Enabled: true
-      Keep: 50
-      Name: Target 4 Estimate
-      Position Tolerance: 0.10000000149011612
-      Queue Size: 10
-      Shape:
-        Alpha: 1
-        Axes Length: 1
-        Axes Radius: 0.10000000149011612
-        Color: 255; 25; 0
-        Head Length: 0.30000001192092896
-        Head Radius: 0.10000000149011612
-        Shaft Length: 1
-        Shaft Radius: 0.05000000074505806
-        Value: Arrow
-      Topic: /target_state_estimate_4
-      Unreliable: false
-      Value: true
-    - Angle Tolerance: 0.10000000149011612
-      Class: rviz/Odometry
-      Covariance:
-        Orientation:
-          Alpha: 0.5
-          Color: 255; 255; 127
-          Color Style: Unique
-          Frame: Local
-          Offset: 1
-          Scale: 1
-          Value: true
-        Position:
-          Alpha: 0.30000001192092896
-          Color: 204; 51; 204
-          Scale: 1
-          Value: true
-        Value: true
-      Enabled: true
-      Keep: 50
-      Name: Target 5 Estimate
-      Position Tolerance: 0.10000000149011612
-      Queue Size: 10
-      Shape:
-        Alpha: 1
-        Axes Length: 1
-        Axes Radius: 0.10000000149011612
-        Color: 255; 25; 0
-        Head Length: 0.30000001192092896
-        Head Radius: 0.10000000149011612
-        Shaft Length: 1
-        Shaft Radius: 0.05000000074505806
-        Value: Arrow
-      Topic: /target_state_estimate_5
-      Unreliable: false
-      Value: true
-    - Angle Tolerance: 0.10000000149011612
-      Class: rviz/Odometry
-      Covariance:
-        Orientation:
-          Alpha: 0.5
-          Color: 255; 255; 127
-          Color Style: Unique
-          Frame: Local
-          Offset: 1
-          Scale: 1
-          Value: true
-        Position:
-          Alpha: 0.30000001192092896
-          Color: 204; 51; 204
-          Scale: 1
-          Value: true
-        Value: true
-      Enabled: true
-      Keep: 50
-      Name: Target 6 Estimate
-      Position Tolerance: 0.10000000149011612
-      Queue Size: 10
-      Shape:
-        Alpha: 1
-        Axes Length: 1
-        Axes Radius: 0.10000000149011612
-        Color: 255; 25; 0
-        Head Length: 0.30000001192092896
-        Head Radius: 0.10000000149011612
-        Shaft Length: 1
-        Shaft Radius: 0.05000000074505806
-        Value: Arrow
-      Topic: /target_state_estimate_6
-      Unreliable: false
-      Value: true
     - Class: rviz/MarkerArray
       Enabled: true
       Marker Topic: /drone_sim/markers/camera_projection
       Name: Camera Projection 3D
-      Namespaces:
-        projection_marker: true
-      Queue Size: 100
-      Value: true
-    - Class: rviz/MarkerArray
-      Enabled: true
-      Marker Topic: /drone_sim/markers/camera_projection_points
-      Name: Camera Projection Points
       Namespaces:
         projection_marker: true
       Queue Size: 100
@@ -342,39 +80,6 @@ Visualization Manager:
       Namespaces:
         vehicle_pose: true
       Queue Size: 100
-      Value: true
-    - Class: jsk_rviz_plugin/PieChart
-      Enabled: true
-      Name: Distance to Waypoint
-      Topic: /behavior_executive/distance_to_wp
-      Value: true
-      auto color change: false
-      background color: 0; 0; 0
-      backround alpha: 0
-      clockwise rotate direction: false
-      foreground alpha: 0.699999988079071
-      foreground alpha 2: 0.4000000059604645
-      foreground color: 25; 255; 240
-      left: 20
-      max color: 255; 0; 0
-      max color change threthold: 0
-      max value: 500
-      med color: 255; 0; 0
-      med color change threthold: 0
-      min value: 0
-      show caption: true
-      size: 200
-      text size: 14
-      top: 20
-    - Alpha: 0.699999988079071
-      Class: rviz/Map
-      Color Scheme: map
-      Draw Behind: false
-      Enabled: true
-      Name: Map
-      Topic: /drone_sim/coverage_grid
-      Unreliable: false
-      Use Timestamp: false
       Value: true
     - Class: jsk_rviz_plugin/PieChart
       Enabled: true
@@ -399,6 +104,62 @@ Visualization Manager:
       size: 200
       text size: 14
       top: 250
+    - Class: jsk_rviz_plugin/PieChart
+      Enabled: true
+      Name: Distance to Waypoint
+      Topic: /behavior_executive/distance_to_wp
+      Value: true
+      auto color change: false
+      background color: 0; 0; 0
+      backround alpha: 0
+      clockwise rotate direction: false
+      foreground alpha: 0.699999988079071
+      foreground alpha 2: 0.4000000059604645
+      foreground color: 25; 255; 240
+      left: 20
+      max color: 255; 0; 0
+      max color change threthold: 0
+      max value: 500
+      med color: 255; 0; 0
+      med color change threthold: 0
+      min value: 0
+      show caption: true
+      size: 200
+      text size: 14
+      top: 20
+    - Class: jsk_rviz_plugin/PieChart
+      Enabled: true
+      Name: Waypoint Number
+      Topic: /behavior_executive/waypoint_number
+      Value: true
+      auto color change: false
+      background color: 0; 0; 0
+      backround alpha: 0
+      clockwise rotate direction: false
+      foreground alpha: 0.699999988079071
+      foreground alpha 2: 0.4000000059604645
+      foreground color: 25; 255; 240
+      left: 20
+      max color: 255; 0; 0
+      max color change threthold: 0
+      max value: 100
+      med color: 255; 0; 0
+      med color change threthold: 0
+      min value: 0
+      show caption: true
+      size: 200
+      text size: 14
+      top: 500
+    - Alpha: 0.699999988079071
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /drone_sim/coverage_grid
+      Unreliable: false
+      Use Timestamp: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 193; 125; 17
@@ -427,7 +188,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1546.606201171875
+      Distance: 1357.33154296875
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -435,17 +196,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 52.63423156738281
-        Y: 12.46985149383545
-        Z: 5.916096210479736
+        X: 194.85806274414062
+        Y: -14.13830280303955
+        Z: -42.03203201293945
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5297970771789551
+      Pitch: 0.6447966694831848
       Target Frame: <Fixed Frame>
-      Yaw: 9.5367431640625e-07
+      Yaw: 0.035001542419195175
     Saved: ~
 Window Geometry:
   Displays:
