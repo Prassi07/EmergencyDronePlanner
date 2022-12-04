@@ -3,6 +3,8 @@
 import os
 import rospy
 import numpy as np
+import time
+
 from rospkg import RosPack
 from simple_drone_sim.msg import Plan, Waypoint, ObstaclePose, ObstacleArray, PoseStampedArray, OdometryArray
 from simple_drone_sim.environment import *
@@ -10,7 +12,7 @@ from geometry_msgs.msg import PoseStamped, Point, Pose, Quaternion, PoseArray
 from std_msgs.msg import ColorRGBA, Bool
 from nav_msgs.msg import Odometry, OccupancyGrid
 from std_msgs.msg import UInt8
-from simple_drone_sim.msg import TargetPoses, TargetPose, Detections
+from simple_drone_sim.msg import TargetPoses, TargetPose, Detections, BatteryArray, Battery
 from tf.transformations import quaternion_from_euler
 
 from visualization_msgs.msg import Marker, MarkerArray
@@ -507,6 +509,21 @@ class SimManager:
 
         return targets_marker_array
 
+    def get_vehicle_battery(self, time):
+        battery_array = BatteryArray()
+
+        battery_status_all = []
+        for id_num in range(self.sim_env.vehicle_num):
+            battery = Battery()
+            battery.percent = self.sim_env.vehicle[id_num].update_battery(time)
+            battery.vehicle_id = id_num 
+
+            battery_array.vehicles.append(battery)
+
+        return battery_array
+        # return battery
+
+
     def main(self):
         waypt_num_pub = rospy.Publisher('/drone_sim/waypt_num', UInt8, queue_size=10)
         vehicle_pose_pub = rospy.Publisher('/drone_sim/vehicle_poses', PoseStampedArray, queue_size=10)
@@ -516,6 +533,8 @@ class SimManager:
         obstacle_pose_pub = rospy.Publisher('/drone_sim/obstacles', ObstacleArray, queue_size=10)
         occ_grid_pub = rospy.Publisher('/drone_sim/occupancy_grid', OccupancyGrid, queue_size=10, latch=True)
         vehicle_in_collision_pub = rospy.Publisher('/drone_sim/collision_detected', Bool, queue_size=10)
+        vehicle_battery_pub = rospy.Publisher('/drone_sim/vehicle_battery', BatteryArray, queue_size=10)
+        # vehicle_battery_pub = rospy.Publisher('/drone_sim/vehicle_battery', Battery, queue_size=10)
 
         # Marker Publishers
         vehicle_marker_pub = rospy.Publisher('/drone_sim/markers/vehicle_pose', MarkerArray, queue_size=10)
@@ -569,6 +588,9 @@ class SimManager:
             if not published_grid:
                 occ_grid_pub.publish(self.get_occupancy_grid(time, frame))
                 published_grid = True
+
+            # publish battery_pub
+            vehicle_battery_pub.publish(self.get_vehicle_battery(time))
 
             vehicle_marker_pub.publish(self.get_vehicle_marker(time, frame, vehicle_position))
             projection_marker_pub.publish(self.get_projection_marker(time, frame, vehicle_position, camera_projection))

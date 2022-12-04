@@ -7,7 +7,7 @@ class Vehicle:
     '''
     Vehicle frame is ENU
     '''
-    def __init__(self, id_num, init_x, init_y, init_z, vehicle_l, hvel, vvel, init_theta=0, init_psi=0, init_phi=0):
+    def __init__(self, id_num, init_x, init_y, init_z, vehicle_l, hvel, vvel, init_theta=0, init_psi=0, init_phi=0, battery=100):
         self.id_num = id_num
         self.x = init_x
         self.y = init_y
@@ -37,6 +37,10 @@ class Vehicle:
         self.vehicle_l = vehicle_l
         self.pose_tip =  [self.x + self.vehicle_l/2 * math.cos(self.phi), self.y + self.vehicle_l/2 * math.sin(self.phi)]
         self.pose_bottom =  [self.x - self.vehicle_l/2 * math.cos(self.phi), self.y - self.vehicle_l/2 * math.sin(self.phi)]
+
+        # battery status
+        self.battery = battery
+        self.battery_time = rospy.Time.now()
 
     def go_to_goal(self, max_omega, max_zvel, next_waypt, K_p, K_p_z):
         '''
@@ -96,3 +100,13 @@ class Vehicle:
         sigma_phi = 0.1
         sigma_theta = 0.1
         return [sigma_x, sigma_y, sigma_z, sigma_psi, sigma_phi, sigma_theta]
+
+    def update_battery(self, time):
+        battery_delta = -0.4
+        elapsed_time = (time - self.battery_time).to_sec()
+        updated_battery = self.battery + battery_delta * elapsed_time
+        if updated_battery <= 0.0:
+            updated_battery = 0.0
+        self.battery = updated_battery
+        self.battery_time = time
+        return updated_battery
