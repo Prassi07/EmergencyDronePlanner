@@ -15,9 +15,11 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include <visualization_msgs/Marker.h>
 
-#include <planner_pkg/landing_planner.h>
+#include "../../include/landing_planner/landing_planner.h"
 
 #include "simple_drone_sim/PoseStampedArray.h"
+#include "simple_drone_sim/BatteryArray.h"
+#include "simple_drone_sim/TargetPoses.h"
 
 #include <string>
 #include <iostream> 
@@ -43,15 +45,19 @@ class LandingPlannerNode{
         ros::Subscriber battery_sub;
         ros::Subscriber odom_sub;
     
-        ros::Subscriber enable_staircase_sub;
 
         // ROS Publishers
         ros::Publisher plan_publisher;
 
         void OdometryHandler(const simple_drone_sim::PoseStampedArray::ConstPtr& msg);
         void OccupancyGridHandler(const nav_msgs::OccupancyGrid::ConstPtr& msg);
+        void BatteryHandler(const simple_drone_sim::BatteryArray::ConstPtr& msg);
+        void TargetHandler(const simple_drone_sim::TargetPoses::ConstPtr& msg);
 
         float ros_rate;
+        geometry_msgs::PoseStamped robot_pose;
+        float robot_battery;
+
 
 };
 #endif
