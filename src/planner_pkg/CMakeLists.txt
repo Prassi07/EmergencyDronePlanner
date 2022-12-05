@@ -197,11 +197,11 @@ include_directories(
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 # )
 
-add_executable(landing_planner_ros src/landing_planner/planner_ros.cpp)
+add_executable(landing_planner src/landing_planner/planner_ros.cpp src/landing_planner/landing_planner.cpp)
 
-add_dependencies(landing_planner_ros ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(landing_planner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-target_link_libraries(landing_planner_ros
+target_link_libraries(landing_planner
     ${catkin_LIBRARIES}
 )
 

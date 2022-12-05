@@ -30,6 +30,7 @@
 class LandingPlannerNode{
     public:
         LandingPlannerNode();
+        ~LandingPlannerNode();
         void Run();
 
     private:
@@ -57,7 +58,10 @@ class LandingPlannerNode{
         float ros_rate;
         geometry_msgs::PoseStamped robot_pose;
         float robot_battery;
+        
+        LandingPlanner planner;
 
+        bool initialized_map, init_robot_pose, init_targets, init_battery;
 
 };
 #endif
