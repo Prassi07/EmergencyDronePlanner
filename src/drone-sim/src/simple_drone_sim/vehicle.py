@@ -7,7 +7,7 @@ class Vehicle:
     '''
     Vehicle frame is ENU
     '''
-    def __init__(self, id_num, init_x, init_y, init_z, vehicle_l, hvel, vvel, init_theta=0, init_psi=0, init_phi=0, battery=100):
+    def __init__(self, id_num, init_x, init_y, init_z, vehicle_l, hvel, vvel, init_theta=0, init_psi=0, init_phi=0, battery=100, in_flight_cond = True):
         self.id_num = id_num
         self.x = init_x
         self.y = init_y
@@ -41,6 +41,9 @@ class Vehicle:
         # battery status
         self.battery = battery
         self.battery_time = rospy.Time.now()
+
+        # flight status
+        self.in_flight_cond = in_flight_cond
 
     def go_to_goal(self, max_omega, max_zvel, next_waypt, K_p, K_p_z):
         '''
@@ -80,11 +83,11 @@ class Vehicle:
             z_d = max_zvel
 
         setpoints = Point()
-        setpoints.x = next_waypt[0]
-        setpoints.y = next_waypt[1]
-        setpoints.z = next_waypt[2]
+        setpoints.x = self.x
+        setpoints.y = self.y
+        setpoints.z = 0
         self.setpoint_pub.publish(setpoints)
-
+    
         return omega, z_d
 
     def position_uncertainty(self):
@@ -102,11 +105,24 @@ class Vehicle:
         return [sigma_x, sigma_y, sigma_z, sigma_psi, sigma_phi, sigma_theta]
 
     def update_battery(self, time):
-        battery_delta = -0.4
-        elapsed_time = (time - self.battery_time).to_sec()
-        updated_battery = self.battery + battery_delta * elapsed_time
-        if updated_battery <= 0.0:
-            updated_battery = 0.0
-        self.battery = updated_battery
-        self.battery_time = time
+        updated_battery = self.battery
+        if self.in_flight_cond:
+            battery_delta = -0.4
+            elapsed_time = (time - self.battery_time).to_sec()
+
+            updated_battery = self.battery + battery_delta * elapsed_time
+            if updated_battery <= 0.0:
+                updated_battery = 0.0
+                print("battery is out of charge")
+                self.in_flight_cond = False
+
+            self.battery = updated_battery
+            self.battery_time = time
+
         return updated_battery
+
+    def reduce_battery(self, percent, time):
+        if self.battery > percent:
+            self.battery = percent
+            self.battery_time = time
+

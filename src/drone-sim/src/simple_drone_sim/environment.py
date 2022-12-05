@@ -219,7 +219,13 @@ class Environment:
                 pass
             else:
                 i = veh_wps.vehicle_id
-                next_position = np.array(
+                if (self.vehicle[i].battery == 0 or self.vehicle[i].in_flight_cond == False):
+                    next_position = np.array(
+                    [self.vehicle[i].x,
+                     self.vehicle[i].y,
+                     0])
+                else:
+                    next_position = np.array(
                     [veh_wps.plan[0].position.position.x,
                      veh_wps.plan[0].position.position.y,
                      veh_wps.plan[0].position.position.z])
@@ -231,8 +237,8 @@ class Environment:
                     # print("Reached waypoint -> ", next_position)
                     self.curr_waypt_num += 1
                     self.global_waypt_list[i].plan.pop(0)
-
                 # else keep trying to navigate to next waypoint
+                
                 else:
                     omega, z_d = self.vehicle[i].go_to_goal(self.max_omega, self.max_zvel,
                                                         next_position, self.K_p,
@@ -241,6 +247,7 @@ class Environment:
                     self.vehicle[i].x += self.del_t * self.hvel * math.cos(self.vehicle[i].psi)
                     self.vehicle[i].y += self.del_t * self.hvel * math.sin(self.vehicle[i].psi)
                     self.vehicle[i].z += self.del_t * z_d
+
 
     def update_waypts(self, new_wpts):
         '''

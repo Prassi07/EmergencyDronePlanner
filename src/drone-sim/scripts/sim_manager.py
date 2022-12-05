@@ -5,6 +5,7 @@ import rospy
 import numpy as np
 import time
 
+
 from rospkg import RosPack
 from simple_drone_sim.msg import Plan, Waypoint, ObstaclePose, ObstacleArray, PoseStampedArray, OdometryArray
 from simple_drone_sim.environment import *
@@ -326,6 +327,28 @@ class SimManager:
     def planner_callback(self, msg):
         self.sim_env.update_waypts(msg)
 
+    def command_land_callback(self, msg):
+        self.sim_env.vehicle[msg.data].in_flight_cond = False
+        print("Landing!")
+
+    def command_takeoff_callback(self, msg):
+        self.sim_env.vehicle[msg.data].in_flight_cond = True
+        plan = Plan()
+        plan.header.frame_id =  "local_enu"
+        plan.header.stamp = rospy.Time.now()
+        plan.vehicle_id = msg.data
+        waypoint_land = Waypoint()
+        waypoint_land.position.position.x = self.sim_env.vehicle[plan.vehicle_id].x
+        waypoint_land.position.position.y = self.sim_env.vehicle[plan.vehicle_id].y
+        waypoint_land.position.position.z = self.sim_env.init_z
+        plan.plan.append(waypoint_land)
+        self.sim_env.update_waypts(plan)
+
+    def command_reduce_battery_callback(self, msg):
+        if msg.data >= 0 and msg.data <= 100:
+            for i in range(self.sim_env.vehicle_num):
+                self.sim_env.vehicle[i].reduce_battery(msg.data, rospy.Time.now())
+
     def get_obstacle_markers(self, time, frame):
         obstacles_marker_array = MarkerArray()
 
@@ -573,6 +596,9 @@ class SimManager:
         obstacles_marker_pub = rospy.Publisher('/drone_sim/markers/obstacles', MarkerArray, queue_size=10)
 
         waypt_sub = rospy.Subscriber(self.planner_path_topic, Plan, self.planner_callback)
+        landing_sub = rospy.Subscriber('/drone_sim/command_land', UInt8, self.command_land_callback)
+        takeoff_sub = rospy.Subscriber('/drone_sim/command_takeoff', UInt8, self.command_takeoff_callback)
+        reduce_battery_sub = rospy.Subscriber('/drone_sim/command_reduce_battery', UInt8, self.command_reduce_battery_callback)
         rate = rospy.Rate(1/self.sim_env.del_t)
         counter = 0
         start_time = rospy.Time.now()
