@@ -329,7 +329,7 @@ class SimManager:
 
     def command_land_callback(self, msg):
         self.sim_env.vehicle[msg.data].in_flight_cond = False
-        print("Landing!")
+        print("Landing")
 
     def command_takeoff_callback(self, msg):
         self.sim_env.vehicle[msg.data].in_flight_cond = True
@@ -343,8 +343,10 @@ class SimManager:
         waypoint_land.position.position.z = self.sim_env.init_z
         plan.plan.append(waypoint_land)
         self.sim_env.update_waypts(plan)
+        print("Taking off")
 
     def command_reduce_battery_callback(self, msg):
+        print("Reducing battery")
         if msg.data >= 0 and msg.data <= 100:
             for i in range(self.sim_env.vehicle_num):
                 self.sim_env.vehicle[i].reduce_battery(msg.data, rospy.Time.now())
