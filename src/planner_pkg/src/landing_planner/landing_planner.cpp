@@ -24,6 +24,8 @@ void LandingPlanner::setTargets(const simple_drone_sim::TargetPoses& targets){
 void LandingPlanner::setRobotLocation(const geometry_msgs::PoseStamped& pose){
     start_node.x = pose.pose.position.x;
     start_node.y = pose.pose.position.y;
+
+    robot_z = pose.pose.position.z;
 }
 
 void LandingPlanner::updateMap(const nav_msgs::OccupancyGrid::ConstPtr& grid){
@@ -126,6 +128,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
             simple_drone_sim::Waypoint wp;
             wp.position.position.x = (backtrackNode->x + x_offset)*map_resolution;
             wp.position.position.y = (backtrackNode->y + y_offset)*map_resolution;
+            wp.position.position.z = robot_z;
             plan.plan.push_back(wp);
             backtrackNode = backtrackNode->parent;
             pathLength++;

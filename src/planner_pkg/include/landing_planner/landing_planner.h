@@ -64,6 +64,7 @@ class LandingPlanner{
         
         float obstacle_cost;
         float start_battery;
+        float robot_z;
         
         int dX[8] = {-1, -1, -1,  0,  0,  1, 1, 1};
         int dY[8] = {-1,  0,  1, -1,  1, -1, 0, 1};
