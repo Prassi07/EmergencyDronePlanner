@@ -133,6 +133,8 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
             backtrackNode = backtrackNode->parent;
             pathLength++;
         }
+
+        std::reverse(plan.plan.begin(), plan.plan.end());
     }
 
     return pathLength;

@@ -202,12 +202,12 @@ class SimManager:
 
     def get_occupancy_grid(self, time, frame):
         for obst in self.sim_env.obstacles:
-            start_y = int((obst.y - obst.width/2. + self.map_size / 2)  / self.map_resolution)
-            end_y = int((obst.y + obst.width/2. + self.map_size / 2)  / self.map_resolution)
+            start_y = int((obst.y - obst.width + self.map_size / 2)  / self.map_resolution)
+            end_y = int((obst.y + obst.width + self.map_size / 2)  / self.map_resolution)
             i = start_y
             while i <= end_y:
-                start_x = int((obst.x - obst.length/2. + self.map_size / 2) / self.map_resolution)
-                end_x = int((obst.x + obst.length/2. + self.map_size / 2) / self.map_resolution)
+                start_x = int((obst.x - obst.length + self.map_size / 2) / self.map_resolution)
+                end_x = int((obst.x + obst.length + self.map_size / 2) / self.map_resolution)
 
                 start = i * self.map_voxels + start_x
                 end = i * self.map_voxels + end_x
@@ -329,7 +329,7 @@ class SimManager:
 
     def command_land_callback(self, msg):
         self.sim_env.vehicle[msg.data].in_flight_cond = False
-        print("Landing")
+        rospy.loginfo_once("SimManager: Landing")
 
     def command_takeoff_callback(self, msg):
         self.sim_env.vehicle[msg.data].in_flight_cond = True

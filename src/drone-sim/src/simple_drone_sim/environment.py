@@ -81,8 +81,10 @@ class Environment:
 
     def generate_obstacles(self, obsts, num_obst):
         if obsts is None or len(obsts) == 0:
-            obstacles = [
-                Obstacle(
+            obstacles = []
+            idx = num_obst
+            while idx >= 0:
+                obst = Obstacle(
                     id=idx,
                     init_x=np.random.uniform(-600, 600),
                     init_y=np.random.uniform(-600, 600),
@@ -91,8 +93,12 @@ class Environment:
                     height=100.0,
                     speed=0.0,
                     hold_heading_time=1.
-                ) for idx in range(num_obst)
-            ]
+                )
+
+                if not obst.is_in_collision(self.init_x, self.init_y, 40.0):
+                    obstacles.append(obst)
+                    idx = idx - 1
+
             return obstacles
         else:
             obstacles = [
@@ -126,7 +132,7 @@ class Environment:
                 
                 in_col = False
                 for obst in self.obstacles:
-                    if obst.is_in_collision(init_x, init_y, 0, 10.0):
+                    if obst.is_in_collision(init_x, init_y, 0, 40.0):
                         in_col = True
                 if not in_col:
                     target = Target(

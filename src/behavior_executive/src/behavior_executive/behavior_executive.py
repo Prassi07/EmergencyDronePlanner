@@ -118,7 +118,6 @@ class BehaviorExecutive(object):
     def send_lz_plan(self):
         if self.lz_plans is not None:
             if not self.sent_lz:
-                self.lz_plans.plan.reverse()
                 self.sim_interface.send_plan(self.lz_plans)
                 self.sent_lz = True
 
