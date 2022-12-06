@@ -56,7 +56,7 @@ class SimManager:
         self.coverage_size = 50.0 # meters
         self.covered_value = 50.0
         self.map_voxels = int(self.map_size / self.map_resolution)
-        self.coverage_map = np.zeros(self.map_voxels**2, dtype=int)
+        self.coverage_map = np.ones(self.map_voxels**2, dtype=int)
 
     def env_setup(self):
         # landing zones

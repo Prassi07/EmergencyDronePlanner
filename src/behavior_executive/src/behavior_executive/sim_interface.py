@@ -1,11 +1,15 @@
 import rospy
 from geometry_msgs.msg import PoseStamped
+from std_msgs.msg import UInt8
 from simple_drone_sim.msg import Plan, Waypoint, PoseStampedArray, BatteryArray
 
 
 class SimInterface(object):
     def __init__(self):
         self._waypoint_pub = rospy.Publisher("/global_path", Plan, queue_size=10)
+        self.landing_pub = rospy.Publisher(
+            "/drone_sim/command_land", UInt8, queue_size=10
+        )
 
         self.battery = None
         self.odom = None
@@ -26,6 +30,9 @@ class SimInterface(object):
 
     def get_vehicle_battery(self):
         return self.battery
+
+    def command_land(self):
+        self.landing_pub.publish(UInt8(data=self.veh_id))
 
     def send_plan(self, plan):
         plan.vehicle_id = self.veh_id

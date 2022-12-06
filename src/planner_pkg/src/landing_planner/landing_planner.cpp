@@ -77,7 +77,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
     Node goalNode = goal_locations[0];
     int goal_key;
     open_list.push(start);
-    ROS_INFO("Setup A star");
+    // ROS_INFO("Setup A star");
     bool pathFound = false;
     while(!open_list.empty() && closed_list.count(computeKey(goalNode.x, goalNode.y)) == 0 ){
         

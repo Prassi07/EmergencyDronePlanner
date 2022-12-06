@@ -23,7 +23,7 @@ void LandingPlannerNode::Run(){
     battery_sub = nh.subscribe("/drone_sim/vehicle_battery",1, &LandingPlannerNode::BatteryHandler, this);
     target_locations_sub = nh.subscribe("/drone_sim/target_poses", 1, &LandingPlannerNode::TargetHandler, this);
 
-    plan_publisher = nh.advertise<simple_drone_sim::Plan>("/planning/landing_zones", 1);
+    plan_publisher = nh.advertise<simple_drone_sim::Plan>("/planning/landing_zones", 1, true);
     ros::spinOnce(); 
     ros::Rate rate(ros_rate);
 
