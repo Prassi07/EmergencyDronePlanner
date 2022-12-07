@@ -37,23 +37,23 @@ struct Node{
 
 };
 
-//Less than operator for priority queue
-// struct CompareFValues {
-//     bool operator()(std::shared_ptr<Node>  n1, std::shared_ptr<Node>  n2)
-//     {
-//         return n1->f > n2->f;
-//     }
-// };
-
+// Less than operator for priority queue
 struct CompareFValues {
     bool operator()(std::shared_ptr<Node>  n1, std::shared_ptr<Node>  n2)
     {
-        if(n1->f == n2->f)
-            return n1->time < n2->time;
-        else
-            return n1->f > n2->f;
+        return n1->f > n2->f;
     }
 };
+
+// struct CompareFValues {
+//     bool operator()(std::shared_ptr<Node>  n1, std::shared_ptr<Node>  n2)
+//     {
+//         if(n1->f == n2->f)
+//             return n1->time < n2->time;
+//         else
+//             return n1->f > n2->f;
+//     }
+// };
 
 typedef std::shared_ptr<Node> Nodeptr;
 

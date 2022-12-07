@@ -210,7 +210,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
                 curr_cost = curr_cost/newPathLength;
 
                 if(newPathLength > pathLength){
-                    if(1.1*curr_cost <= best_cost){
+                    if(curr_cost <= best_cost){
                         best_path.clear();
                         best_path = curr_path;
                         pathLength = newPathLength;
