@@ -7,7 +7,7 @@ class Vehicle:
     '''
     Vehicle frame is ENU
     '''
-    def __init__(self, id_num, init_x, init_y, init_z, vehicle_l, hvel, vvel, init_theta=0, init_psi=0, init_phi=0, battery=100, in_flight_cond = True):
+    def __init__(self, id_num, init_x, init_y, init_z, vehicle_l, hvel, vvel, init_theta=0, init_psi=0, init_phi=0, battery=100, in_flight_cond = False):
         self.id_num = id_num
         self.x = init_x
         self.y = init_y
@@ -118,6 +118,8 @@ class Vehicle:
 
             self.battery = updated_battery
             self.battery_time = time
+        else:
+            self.battery_time = rospy.Time.now()
 
         return updated_battery
 

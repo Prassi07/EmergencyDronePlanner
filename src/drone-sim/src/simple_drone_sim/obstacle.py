@@ -2,13 +2,25 @@
 import random
 import math
 
+
 class Obstacle(object):
     """
     Obstacles are defined as rectangular regions with a center
     located on the ground and a width, length, and height.
     """
 
-    def __init__(self, id, init_x, init_y, width, length, height, speed, hold_heading_time, dt=0.02):
+    def __init__(
+        self,
+        id,
+        init_x,
+        init_y,
+        width,
+        length,
+        height,
+        speed,
+        hold_heading_time,
+        dt=0.02,
+    ):
         self.id = id
         self.x = init_x
         self.y = init_y
@@ -19,19 +31,19 @@ class Obstacle(object):
 
         self.speed_heading = None
         self.hold_heading_time = hold_heading_time
-        self.last_heading_update = hold_heading_time * int(1/dt)
+        self.last_heading_update = hold_heading_time * int(1 / dt)
         self.dt = dt
 
         # coordinates of bottom left and top right points
-        self.bl = (self.x - self.length/2., self.y - self.width/2.)
-        self.tr = (self.x + self.length/2., self.y + self.width/2.)
+        self.bl = (self.x - self.length / 2.0, self.y - self.width / 2.0)
+        self.tr = (self.x + self.length / 2.0, self.y + self.width / 2.0)
 
     def update(self):
         # update position in a random heading, updated every second
         self.last_heading_update = self.last_heading_update - 1
         if self.speed_heading is None or self.last_heading_update == 0:
-            self.last_heading_update = self.hold_heading_time * int(1/self.dt)
-            self.speed_heading = float(random.randrange(0, 360)/180. * math.pi)
+            self.last_heading_update = self.hold_heading_time * int(1 / self.dt)
+            self.speed_heading = float(random.randrange(0, 360) / 180.0 * math.pi)
 
         vel_x = math.cos(self.speed_heading) * self.speed
         vel_y = math.sin(self.speed_heading) * self.speed
@@ -59,6 +71,18 @@ class Obstacle(object):
             return z < (self.height + size)
 
         return False
+
+    def __str__(self):
+        return "id: {}, x: {},  y: {},  width: {}, length: {}, height: {}, speed: {}, hold_heading_time: {}".format(
+            self.id,
+            self.x,
+            self.y,
+            self.width,
+            self.length,
+            self.height,
+            self.speed,
+            self.hold_heading_time,
+        )
 
 
 def run_test():

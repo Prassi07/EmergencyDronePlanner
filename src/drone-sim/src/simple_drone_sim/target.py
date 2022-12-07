@@ -41,3 +41,15 @@ class Target:
         self.heading += self.angular_speed * del_t
         
         self.time_since_last_change += del_t
+    
+    def __str__(self):
+        return "id: {}, x: {},  y: {},  heading: {}, linear_speed: {}, angular_speed: {}, linear_speed_std: {}, angular_speed_std: {}".format(
+            self.id,
+            self.x,
+            self.y,
+            self.heading,
+            self.linear_speed,
+            self.angular_speed,
+            self.linear_speed_std,
+            self.angular_speed_std,
+        )
