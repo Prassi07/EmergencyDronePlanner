@@ -12,27 +12,26 @@ void CoveragePlannerNode::Run()
     ros::Rate rate(ros_rate);
     while(ros::ok())
     {
-        if (!(_received_map && _received_obstacles && _received_init_pose))
+        if (_received_map && _received_obstacles && _received_init_pose)
         {
-            ROS_INFO_ONCE("Waiting for occupancy grid/obstacles/initial pose");
-        }
-
-        simple_drone_sim::Plan plan;
-        plan.vehicle_id = 0;
-        plan.header.frame_id = "local_enu";
-        plan.header.stamp = ros::Time::now();
-        int planLength = planner.idiotPlan(plan);
-        if (plan.plan.size() > 0 && _published_count<5)
-        {
-            ROS_INFO("Publishing plan:");
-            plan_publisher.publish(plan);
-            _published_count++;
-            int i = 1;
-            for (const auto& wp : plan.plan)
+            simple_drone_sim::Plan plan;
+            plan.vehicle_id = 0;
+            plan.header.frame_id = "local_enu";
+            plan.header.stamp = ros::Time::now();
+            int planLength = planner.idiotPlan(plan);
+            if (plan.plan.size() > 0 && _published_count<5)
             {
-                ROS_INFO("    Waypoint %d: (%f,%f,%f)",i,wp.position.position.x,wp.position.position.y,wp.position.position.z);
-                i++;
+                ROS_INFO("Publishing plan:");
+                plan_publisher.publish(plan);
+                _published_count++;
+                int i = 1;
+                for (const auto& wp : plan.plan)
+                {
+                    ROS_INFO("    Waypoint %d: (%f,%f,%f)",i,wp.position.position.x,wp.position.position.y,wp.position.position.z);
+                    i++;
+                }
             }
+            _received_map = _received_obstacles = _received_init_pose = false;
         }
         ros::spinOnce();
         rate.sleep();
