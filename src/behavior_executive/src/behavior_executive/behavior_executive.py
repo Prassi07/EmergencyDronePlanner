@@ -7,6 +7,7 @@ from nav_msgs.msg import Path
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Float32
 from simple_drone_sim.msg import Plan
+from jsk_rviz_plugins.msg import OverlayText
 
 # application
 from behavior_executive.sim_interface import SimInterface
@@ -68,6 +69,10 @@ class BehaviorExecutive(object):
 
         self.global_path_pub = rospy.Publisher(
             "/behavior_executive/global_path", Path, queue_size=10, latch=True
+        )
+
+        self.viz_text_pub = rospy.Publisher(
+            "/behavior_executive/viz/text", OverlayText, queue_size=10
         )
 
         self._global_plan_sub = rospy.Subscriber(
@@ -153,6 +158,16 @@ class BehaviorExecutive(object):
         percent_remaining = remaining_covered / total_voxels
         self._covered_pub.publish(Float32(percent_covered))
         self._remaining_covered_pub.publish(Float32(percent_remaining))
+
+        if self.sent_lz:
+            text = "Following Emergency Landing Plan!"
+        else:
+            if self.state == BehaviorStates.INIT:
+                text = "Waiting on Global Plan!"
+            else:
+                text = "Following Global Plan!"
+        
+        self.viz_text_pub.publish(OverlayText(text=text))
 
     def send_lz_plan(self):
         if self.lz_plans is not None:
