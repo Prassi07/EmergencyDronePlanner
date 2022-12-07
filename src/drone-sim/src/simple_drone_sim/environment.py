@@ -98,7 +98,8 @@ class Environment:
                 if not obst.is_in_collision(self.init_x, self.init_y, 40.0):
                     obstacles.append(obst)
                     idx = idx - 1
-
+            # for o in obstacles:
+            #     print(str(o))
             return obstacles
         else:
             obstacles = [
@@ -147,6 +148,8 @@ class Environment:
                     )
                     targets.append(target)
                     idx = idx + 1
+            # for t in targets:
+            #     print(str(t))
             return targets
         # when targets are specified
         else:

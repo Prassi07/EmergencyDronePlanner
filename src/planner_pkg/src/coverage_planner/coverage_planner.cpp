@@ -114,11 +114,11 @@ int CoveragePlanner::idiotPlan(simple_drone_sim::Plan& plan)
         wp.position.position.y += _coverage_size;
         plan.plan.push_back(wp);
     }
-    int i = 1;
-    for (const auto& wp : plan.plan)
-    {
-        ROS_INFO("Waypoint %d: (%f,%f,%f)",i,wp.position.position.x,wp.position.position.y,wp.position.position.z);
-        i++;
-    }
+    // int i = 1;
+    // for (const auto& wp : plan.plan)
+    // {
+    //     ROS_INFO("Waypoint %d: (%f,%f,%f)",i,wp.position.position.x,wp.position.position.y,wp.position.position.z);
+    //     i++;
+    // }
     return 0;
 }
