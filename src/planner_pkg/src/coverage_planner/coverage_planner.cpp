@@ -38,7 +38,7 @@ void CoveragePlanner::updateObstacles(const simple_drone_sim::ObstacleArrayConst
         if (obs.height < temp_height) { temp_height = obs.height; }
     }
     _path_height = temp_height/2;
-    ROS_INFO("Received obstacles. There are %ld of them. I will fly at a height of %f", _obstacles.size(), _path_height);
+    ROS_INFO("Received obstacles. There are %ld of them. I will fly at a height of %d", _obstacles.size(), _path_height);
 }
 
 void CoveragePlanner::printInfo()

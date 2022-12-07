@@ -3,9 +3,10 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
+      Expanded:
+        - /Global Plan1
       Splitter Ratio: 0.6528066396713257
-    Tree Height: 363
+    Tree Height: 1079
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -35,7 +36,7 @@ Visualization Manager:
       Cell Size: 50
       Class: rviz/Grid
       Color: 143; 89; 2
-      Enabled: true
+      Enabled: false
       Line Style:
         Line Width: 0.029999999329447746
         Value: Lines
@@ -48,7 +49,7 @@ Visualization Manager:
       Plane: XY
       Plane Cell Count: 30
       Reference Frame: <Fixed Frame>
-      Value: true
+      Value: false
     - Class: rviz/MarkerArray
       Enabled: true
       Marker Topic: /drone_sim/markers/targets
@@ -216,7 +217,7 @@ Visualization Manager:
       Length: 0.30000001192092896
       Line Style: Lines
       Line Width: 0.029999999329447746
-      Name: Path
+      Name: Landing Zones Path
       Offset:
         X: 0
         Y: 0
@@ -228,6 +229,30 @@ Visualization Manager:
       Shaft Diameter: 0.10000000149011612
       Shaft Length: 0.10000000149011612
       Topic: /behavior_executive/landing_zone_path
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 32; 74; 135
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 0.30000001192092896
+      Line Style: Lines
+      Line Width: 0.029999999329447746
+      Name: Global Plan
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Queue Size: 10
+      Radius: 0.029999999329447746
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /behavior_executive/global_path
       Unreliable: false
       Value: true
   Enabled: true
@@ -267,10 +292,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Scale: 0.7756277918815613
+      Scale: 0.6788647174835205
       Target Frame: <Fixed Frame>
-      X: 0
-      Y: 0
+      X: 119.36617279052734
+      Y: 16.088624954223633
     Saved: ~
 Window Geometry:
   Displays:

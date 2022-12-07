@@ -14,9 +14,10 @@ from behavior_executive.sim_interface import SimInterface
 
 class BehaviorStates(Enum):
     INIT = 0
-    FOLLOW_GLOBAL = 1
-    GO_TO_LZ = 2
-    LAND = 3
+    TAKEOFF = 1
+    FOLLOW_GLOBAL = 2
+    GO_TO_LZ = 3
+    LAND = 4
 
 
 class BehaviorExecutive(object):
@@ -34,7 +35,7 @@ class BehaviorExecutive(object):
         self.sent_lz = False
         self.at_lz = False
 
-        self.battery_buffer = 0.0
+        self.battery_buffer = 5.0
 
         self.state = BehaviorStates.INIT
 
@@ -65,6 +66,10 @@ class BehaviorExecutive(object):
             "/behavior_executive/landing_zone_path", Path, queue_size=10, latch=True
         )
 
+        self.global_path_pub = rospy.Publisher(
+            "/behavior_executive/global_path", Path, queue_size=10, latch=True
+        )
+
         self._global_plan_sub = rospy.Subscriber(
             "/planning/global", Plan, self.global_path_callback
         )
@@ -84,9 +89,21 @@ class BehaviorExecutive(object):
 
         self.lz_path_pub.publish(msg)
 
+    def publish_global_path(self, plan):
+        msg = Path()
+        msg.header = plan.header
+
+        for wp in plan.plan:
+            pose = PoseStamped()
+            pose.pose = wp.position
+            msg.poses.append(pose)
+
+        self.global_path_pub.publish(msg)
+
     def global_path_callback(self, msg):
         self.global_plan = msg
         self.has_new_plan = True
+        self.publish_global_path(msg)
         rospy.loginfo("BehaviorExecutive: Received new plan!")
 
     def lz_path_callback(self, msg):
@@ -129,7 +146,7 @@ class BehaviorExecutive(object):
             self._wp_number_pub.publish(
                 Float32(data=self.wp_num % len(self.global_plan.plan))
             )
-        
+
         covered, remaining_covered = self.sim_interface.get_coverage()
         total_voxels = covered + remaining_covered
         percent_covered = covered / total_voxels
@@ -144,7 +161,11 @@ class BehaviorExecutive(object):
                 self.sent_lz = True
             bat = self.sim_interface.get_vehicle_battery()
             rospy.loginfo_once("BehaviorExecutive: Sending LZ plan!")
-            rospy.loginfo_once("Battery is {} requried to go is {}".format(bat.percent, self.lz_plans.battery_required))
+            rospy.loginfo_once(
+                "Battery is {} requried to go is {}".format(
+                    bat.percent, self.lz_plans.battery_required
+                )
+            )
             if self.has_reached(
                 self.lz_plans.plan[0], self.sim_interface.get_vehicle_odom()
             ):
@@ -196,7 +217,10 @@ class BehaviorExecutive(object):
     def publish_next_waypoint(self):
         if self.state == BehaviorStates.INIT:
             if self.has_new_plan:
-                self.state = BehaviorStates.FOLLOW_GLOBAL
+                self.state = BehaviorStates.TAKEOFF
+        elif self.state == BehaviorStates.TAKEOFF:
+            self.sim_interface.command_takeoff()
+            self.state = BehaviorStates.FOLLOW_GLOBAL
         elif self.state == BehaviorStates.FOLLOW_GLOBAL:
             if self.should_land():
                 self.state = BehaviorStates.GO_TO_LZ

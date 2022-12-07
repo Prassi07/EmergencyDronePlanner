@@ -97,10 +97,10 @@ class CoveragePlanner{
             return (y*_ys + x);
         }
 
-        std::vector<int> generateNeighbors(int x, int y)
-        {
+        // std::vector<int> generateNeighbors(int x, int y)
+        // {
 
-        }
+        // }
 
         void updateCoverage(int x, int y);
 

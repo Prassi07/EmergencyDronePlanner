@@ -66,7 +66,7 @@ void CoveragePlannerNode::OdometryHandler(const simple_drone_sim::PoseStampedArr
 int main(int argc, char** argv)
 {
     ROS_INFO("Starting Global Planner Node");
-    ros::init(argc, argv, "Global Planner Node");
+    ros::init(argc, argv, "GlobalPlannerNode");
     CoveragePlannerNode node;
     node.Run();
     return 0;
