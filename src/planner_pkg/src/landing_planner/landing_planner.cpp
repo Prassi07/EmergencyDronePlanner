@@ -89,7 +89,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
     CLOSED_LIST closed_list;
     OPEN_LIST open_list;
 
-    Node* start = new Node(start_node.x, start_node.y);
+    Nodeptr start = std::make_shared<Node>(start_node.x, start_node.y);
     start->key = computeKey(start_node.x, start_node.y);
     start->g = 0;
     start->h = 0;
@@ -107,7 +107,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
     // ROS_INFO("Setup A star");
     bool pathFound = false;
     while(!open_list.empty() && closed_list.count(computeKey(goalNode.x, goalNode.y)) == 0 ){
-        Node *curr_node = open_list.top();
+        Nodeptr curr_node = open_list.top();
         open_list.pop();
         int curr_key = computeKey(curr_node->x, curr_node->y);
         // ROS_INFO("Here1");
@@ -155,7 +155,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
                         {   
                             int g_s_dash = curr_node->g + (int)map[getMapIndex(newx, newy)];
                             int h_s_dash = estimateOctileDistance(newx, newy, goalNode.x, goalNode.y);
-                            Node *successor = new Node(newx, newy);
+                            Nodeptr successor = std::make_shared<Node>(newx, newy);
                             successor->parent = curr_node;
                             successor->g = g_s_dash;
                             successor->h = h_s_dash;
@@ -172,12 +172,14 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
 
     int pathLength = 0;
     vector<simple_drone_sim::Waypoint> curr_path, best_path;
+    curr_path.reserve(1000);
+    best_path.reserve(1000);
     if(pathFound){
         ROS_INFO("Backtracking..");
         for(int i = 0; i < goal_keys.size(); i++){
             if(i == 0){
                 pathLength = 0;
-                Node* backtrackNode = closed_list.at(goal_keys[i]);
+                Nodeptr backtrackNode = closed_list.at(goal_keys[i]);
                 while(backtrackNode->parent != NULL){
                     simple_drone_sim::Waypoint wp;
                     wp.position.position.x = (backtrackNode->x + x_offset)*map_resolution;
@@ -191,7 +193,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
             else{
                 int newPathLength = 0;
                 curr_path.clear();
-                Node* backtrackNode = closed_list.at(goal_keys[i]);
+                Nodeptr backtrackNode = closed_list.at(goal_keys[i]);
                 while(backtrackNode->parent != NULL){
                     simple_drone_sim::Waypoint wp;
                     wp.position.position.x = (backtrackNode->x + x_offset)*map_resolution;

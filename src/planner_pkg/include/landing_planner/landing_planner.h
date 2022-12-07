@@ -15,13 +15,14 @@
 #define	MIN(A, B)	((A) < (B) ? (A) : (B))
 #endif
 
+
 struct Node{
     int key;
     int x, y;
     int time;
 
     float g, h, f;
-    Node* parent;
+    std::shared_ptr<Node> parent;
 
     Node(){}
 
@@ -38,17 +39,19 @@ struct Node{
 
 //Less than operator for priority queue
 struct CompareFValues {
-    bool operator()(Node *n1, Node *n2)
+    bool operator()(std::shared_ptr<Node>  n1, std::shared_ptr<Node>  n2)
     {
         return n1->f > n2->f;
     }
 };
 
+typedef std::shared_ptr<Node> Nodeptr;
+
 //Defining a custom closed list of type unordered_map
-typedef std::unordered_map<int, Node*> CLOSED_LIST;
+typedef std::unordered_map<int, Nodeptr> CLOSED_LIST;
 
 //Defining an open list of type priority queue
-typedef std::priority_queue<Node*, std::vector<Node*>, CompareFValues> OPEN_LIST;
+typedef std::priority_queue<Nodeptr, std::vector<Nodeptr>, CompareFValues> OPEN_LIST;
 
 class LandingPlanner{
     public:

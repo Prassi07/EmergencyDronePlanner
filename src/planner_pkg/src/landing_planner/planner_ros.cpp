@@ -33,9 +33,12 @@ void LandingPlannerNode::Run(){
             plan.vehicle_id = 0;
             plan.header.frame_id = "local_enu";
             plan.header.stamp = ros::Time::now();
+            ros::Time s1 = ros::Time::now();
             int planLength = planner.planToGoals(plan);
+            ros::Time s2 = ros::Time::now();
+            ros::Duration d = s2 - s1;
             if(planLength > 0){
-                ROS_INFO("Publishing plan of length: %d", planLength);
+                ROS_INFO("Publishing plan of length: %d, Time taken to Plan: %f", planLength, d.toSec());
                 plan_publisher.publish(plan);
             }
             init_battery = false;
