@@ -80,9 +80,10 @@ class BehaviorExecutive(object):
         rospy.loginfo("BehaviorExecutive: Received new plan!")
 
     def lz_path_callback(self, msg):
-        self.lz_plans = msg
-        self.publish_lz_path(msg)
-        self.has_new_lz = True
+        if not self.sent_lz:
+            self.lz_plans = msg
+            self.publish_lz_path(msg)
+            self.has_new_lz = True
 
     def has_reached(self, wp, odom):
         if wp is None or odom is None:
