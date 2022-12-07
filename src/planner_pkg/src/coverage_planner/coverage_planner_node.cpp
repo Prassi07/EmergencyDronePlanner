@@ -28,7 +28,7 @@ void CoveragePlannerNode::Run()
                 int i = 1;
                 for (const auto& wp : plan.plan)
                 {
-                    ROS_INFO("    Waypoint %d: (%f,%f,%f)",i,wp.position.position.x,wp.position.position.y,wp.position.position.z);
+                    // ROS_INFO("    Waypoint %d: (%f,%f,%f)",i,wp.position.position.x,wp.position.position.y,wp.position.position.z);
                     i++;
                 }
             }

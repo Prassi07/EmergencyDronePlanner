@@ -12,6 +12,7 @@
 #include <nav_msgs/Odometry.h>
 #include <std_msgs/Header.h>
 #include <std_msgs/Bool.h>
+#include <std_msgs/Float32.h>
 #include <nav_msgs/OccupancyGrid.h>
 #include <visualization_msgs/Marker.h>
 
@@ -45,6 +46,9 @@ class LandingPlannerNode{
 
         ros::Subscriber battery_sub;
         ros::Subscriber odom_sub;
+
+        ros::Subscriber global_plan_sub;
+        ros::Subscriber waypoint_num_sub;
     
 
         // ROS Publishers
@@ -54,14 +58,19 @@ class LandingPlannerNode{
         void OccupancyGridHandler(const nav_msgs::OccupancyGrid::ConstPtr& msg);
         void BatteryHandler(const simple_drone_sim::BatteryArray::ConstPtr& msg);
         void TargetHandler(const simple_drone_sim::TargetPoses::ConstPtr& msg);
+        void GlobalPlanHandler(const  simple_drone_sim::Plan::ConstPtr& msg);
+        void WaypointNumHandler(const std_msgs::Float32 msg);
 
         float ros_rate;
         geometry_msgs::PoseStamped robot_pose;
         float robot_battery;
         
+        simple_drone_sim::Plan global_plan;
+        int waypoint_number;
+
         LandingPlanner planner;
 
-        bool initialized_map, init_robot_pose, init_targets, init_battery;
+        bool initialized_map, init_robot_pose, init_targets, init_battery, global_plan_recv, waypoint_num_recv;
 
 };
 #endif
