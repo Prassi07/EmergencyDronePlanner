@@ -1,5 +1,7 @@
 import rospy
+import numpy as np
 from geometry_msgs.msg import PoseStamped
+from nav_msgs.msg import Odometry, OccupancyGrid
 from std_msgs.msg import UInt8
 from simple_drone_sim.msg import Plan, Waypoint, PoseStampedArray, BatteryArray
 
@@ -14,6 +16,9 @@ class SimInterface(object):
         self.battery = None
         self.odom = None
 
+        self.covered = -1.0
+        self.remaining_covered = -1.0
+
         self._odom_sub = rospy.Subscriber(
             "/drone_sim/vehicle_poses", PoseStampedArray, self.vehicle_odom_callback
         )
@@ -22,14 +27,25 @@ class SimInterface(object):
             "/drone_sim/vehicle_battery", BatteryArray, self.vehicle_battery_callback
         )
 
+        self._coverage_sub = rospy.Subscriber(
+            "/drone_sim/coverage_grid", OccupancyGrid, self.coverage_callback
+        )
+
         # only controlling one drone at a time
         self.veh_id = 0
+    
+    def coverage_callback(self, msg):
+        self.covered = (np.array(msg.data) == 50.0).sum()
+        self.remaining_covered = (np.array(msg.data) == 1.0).sum()
 
     def get_vehicle_odom(self):
         return self.odom
 
     def get_vehicle_battery(self):
         return self.battery
+
+    def get_coverage(self):
+        return self.covered, self.remaining_covered
 
     def command_land(self):
         self.landing_pub.publish(UInt8(data=self.veh_id))

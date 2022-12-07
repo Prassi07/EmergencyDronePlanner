@@ -34,6 +34,8 @@ class BehaviorExecutive(object):
         self.sent_lz = False
         self.at_lz = False
 
+        self.battery_buffer = 0.0
+
         self.state = BehaviorStates.INIT
 
         # meters to consider a wp reached
@@ -49,6 +51,14 @@ class BehaviorExecutive(object):
 
         self._wp_number_pub = rospy.Publisher(
             "/behavior_executive/waypoint_number", Float32, queue_size=10
+        )
+
+        self._covered_pub = rospy.Publisher(
+            "/behavior_executive/covered_voxels", Float32, queue_size=10
+        )
+
+        self._remaining_covered_pub = rospy.Publisher(
+            "/behavior_executive/remaining_voxels", Float32, queue_size=10
         )
 
         self.lz_path_pub = rospy.Publisher(
@@ -100,6 +110,10 @@ class BehaviorExecutive(object):
 
     def should_land(self):
         # TODO: add battery smarts
+        bat = self.sim_interface.get_vehicle_battery()
+
+        if self.lz_plans is not None and bat is not None:
+            return self.lz_plans.battery_required + self.battery_buffer >= bat.percent
         return False
 
     def command_land(self):
@@ -115,14 +129,22 @@ class BehaviorExecutive(object):
             self._wp_number_pub.publish(
                 Float32(data=self.wp_num % len(self.global_plan.plan))
             )
+        
+        covered, remaining_covered = self.sim_interface.get_coverage()
+        total_voxels = covered + remaining_covered
+        percent_covered = covered / total_voxels
+        percent_remaining = remaining_covered / total_voxels
+        self._covered_pub.publish(Float32(percent_covered))
+        self._remaining_covered_pub.publish(Float32(percent_remaining))
 
     def send_lz_plan(self):
         if self.lz_plans is not None:
             if not self.sent_lz:
                 self.sim_interface.send_plan(self.lz_plans)
                 self.sent_lz = True
-
+            bat = self.sim_interface.get_vehicle_battery()
             rospy.loginfo_once("BehaviorExecutive: Sending LZ plan!")
+            rospy.loginfo_once("Battery is {} requried to go is {}".format(bat.percent, self.lz_plans.battery_required))
             if self.has_reached(
                 self.lz_plans.plan[0], self.sim_interface.get_vehicle_odom()
             ):
