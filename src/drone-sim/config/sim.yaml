@@ -14,7 +14,7 @@ vvel: 2  # vehicle z-velocity
 
 # number of random targets & obstalces
 # -1 if providing custom list of targets
-n_rand_targets: 10
+n_rand_targets: 20
 n_rand_obst: 75
 
 del_t: .02  # timestep between sim updates
@@ -28,16 +28,27 @@ K_p: 10  # PID angular proportionality constant
 K_p_z: 0.01  # PID z-axis proportionality constant
 
 targets:
-    - {id: 0, x: 51.551044627636315,  y: 149.8029287662543,  heading: 3.378180793959543, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 1, x: 10.974144160580153,  y: 30.040757437172914,  heading: 4.508843153595021, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 2, x: 0.5680554085412552,  y: -2.664048919196034,  heading: 4.672608384214387, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 3, x: 156.8464087510376,  y: -211.03092801199222,  heading: 0.30215158640044787, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 4, x: -160.88091999108138,  y: 181.3921102556269,  heading: 1.1403573889711118, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 5, x: -80.69773372799929,  y: -203.699142226512,  heading: 0.5070628325206488, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 6, x: 177.2074932012082,  y: -8.196788203943271,  heading: 5.038209188479517, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 7, x: 157.66459842688243,  y: 159.37324549272654,  heading: 4.081182485142326, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 8, x: 24.669747468224273,  y: 26.568956842395806,  heading: 4.437959305981657, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 9, x: -162.68783111131904,  y: -90.7619464737769,  heading: 2.9456967368377964, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 0, x: 169.8039322610403,  y: -69.01532389657217,  heading: 3.5488502954563934, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 1, x: 63.35571778972371,  y: 49.03053056179891,  heading: 4.240706053709976, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 2, x: -151.55281972163345,  y: -175.95894521181083,  heading: 1.4455714209917059, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 3, x: 113.44640032517924,  y: 36.013078686560675,  heading: 5.49698385203269, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 4, x: 182.706260507784,  y: 5.778005554578215,  heading: 6.099667453154307, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 5, x: 205.7492610759562,  y: -115.50354798678318,  heading: 3.5176720397126178, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 6, x: 138.2046597058375,  y: -98.54468560823821,  heading: 1.1908307659851785, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 7, x: 59.66319089340192,  y: -35.682312354913535,  heading: 2.013284634325337, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 8, x: -169.78764647175046,  y: -218.43355817847547,  heading: 4.516496384268289, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 9, x: -48.15637957285213,  y: -28.73901762607872,  heading: 2.5926361033748764, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 10, x: -158.7806735469644,  y: 30.560780854994107,  heading: 0.9613439249531244, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 11, x: -148.25708494749594,  y: -72.13232027372817,  heading: 0.10890196082876247, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 12, x: -4.50535953977959,  y: -106.38028886569643,  heading: 0.1783009425655392, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 13, x: 8.674987892654997,  y: 140.8291580025599,  heading: 3.5474660629596624, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 14, x: 40.01439136877468,  y: 205.52138602165786,  heading: 2.774431087728644, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 15, x: -184.34787728803784,  y: -40.655562290800304,  heading: 1.1075016954962398, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 16, x: 209.5217822359739,  y: -113.21194737832279,  heading: 0.6593796842136774, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 17, x: 211.68972475627453,  y: -87.62526907327242,  heading: 1.5274177227162478, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 18, x: 46.2056951460886,  y: -219.84030875476904,  heading: 1.1680660484218022, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 19, x: -199.07101587042467,  y: 168.83006387363685,  heading: 1.7303678347109102, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+
 
 
 obstacles:
