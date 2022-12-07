@@ -24,9 +24,15 @@ void CoveragePlannerNode::Run()
         int planLength = planner.idiotPlan(plan);
         if (plan.plan.size() > 0 && _published_count<5)
         {
-            ROS_INFO("Publishing plan");
+            ROS_INFO("Publishing plan:");
             plan_publisher.publish(plan);
             _published_count++;
+            int i = 1;
+            for (const auto& wp : plan.plan)
+            {
+                ROS_INFO("    Waypoint %d: (%f,%f,%f)",i,wp.position.position.x,wp.position.position.y,wp.position.position.z);
+                i++;
+            }
         }
         ros::spinOnce();
         rate.sleep();
