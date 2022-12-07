@@ -40,8 +40,8 @@ void LandingPlannerNode::Run(){
             plan.header.frame_id = "local_enu";
             plan.header.stamp = ros::Time::now();
             ros::Time s1 = ros::Time::now();
-            // int planLength = planner.planToGoals(plan);
-            int planLength = planner.naivePlanner(plan);
+            int planLength = planner.planToGoals(plan);
+            // int planLength = planner.naivePlanner(plan);
             ros::Time s2 = ros::Time::now();
             ros::Duration d = s2 - s1;
             if(planLength > 0){
