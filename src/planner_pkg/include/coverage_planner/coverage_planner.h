@@ -75,7 +75,7 @@ class CoveragePlanner{
         float _map_resolution;
         int _map_size;
 
-        int _coverage_size = 50;
+        int _coverage_size = 40;
         
         float obstacle_cost;
 

@@ -17,8 +17,8 @@ void CoveragePlanner::updateMap(const nav_msgs::OccupancyGrid::ConstPtr& grid)
     _map_resolution = grid->info.resolution;
     _ys = grid->info.width;
     _xs = grid->info.height;
-    _xo = (grid->info.origin.position.x)/(_map_resolution);
-    _yo = (grid->info.origin.position.y)/(_map_resolution);
+    _xo = (grid->info.origin.position.x)/(_map_resolution) + 30.0;
+    _yo = (grid->info.origin.position.y)/(_map_resolution) + 30.0;
 
     _map.clear();
     _map = grid->data;
@@ -97,7 +97,7 @@ int CoveragePlanner::idiotPlan(simple_drone_sim::Plan& plan)
     wp.position.position.z = _path_height;
     plan.plan.push_back(wp);
 
-    for (int col = 0; col*_coverage_size < _map_size; col++)
+    for (int col = 0; col*_coverage_size < (_map_size - 60.0); col++)
     {
         simple_drone_sim::Waypoint wp;
         if (col % 2 == 0)
@@ -112,6 +112,7 @@ int CoveragePlanner::idiotPlan(simple_drone_sim::Plan& plan)
         plan.plan.push_back(wp);
 
         wp.position.position.y += _coverage_size;
+
         plan.plan.push_back(wp);
     }
     return 0;
