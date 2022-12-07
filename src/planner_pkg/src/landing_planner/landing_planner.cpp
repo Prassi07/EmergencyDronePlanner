@@ -170,7 +170,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
             
     }
 
-    int pathLength = 0;
+    int pathLength = 0, best_cost = 0, curr_cost;
     vector<simple_drone_sim::Waypoint> curr_path, best_path;
     curr_path.reserve(1000);
     best_path.reserve(1000);
@@ -180,6 +180,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
             if(i == 0){
                 pathLength = 0;
                 Nodeptr backtrackNode = closed_list.at(goal_keys[i]);
+                best_cost = backtrackNode->g;
                 while(backtrackNode->parent != NULL){
                     simple_drone_sim::Waypoint wp;
                     wp.position.position.x = (backtrackNode->x + x_offset)*map_resolution;
@@ -189,11 +190,13 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
                     backtrackNode = backtrackNode->parent;
                     pathLength++;
                 }
+                best_cost = best_cost/pathLength;
             }
             else{
                 int newPathLength = 0;
                 curr_path.clear();
                 Nodeptr backtrackNode = closed_list.at(goal_keys[i]);
+                curr_cost = backtrackNode->g;
                 while(backtrackNode->parent != NULL){
                     simple_drone_sim::Waypoint wp;
                     wp.position.position.x = (backtrackNode->x + x_offset)*map_resolution;
@@ -204,10 +207,15 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
                     newPathLength++;
                 }
 
+                curr_cost = curr_cost/newPathLength;
+
                 if(newPathLength > pathLength){
-                    best_path.clear();
-                    best_path = curr_path;
-                    pathLength = newPathLength;
+                    if(1.1*curr_cost <= best_cost){
+                        best_path.clear();
+                        best_path = curr_path;
+                        pathLength = newPathLength;
+                        best_cost = curr_cost;
+                    }
                 }
             }
         }
