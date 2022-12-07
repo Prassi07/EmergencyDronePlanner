@@ -51,8 +51,8 @@ sensor_d: 1
 sensor_g: 1
 sensor_h: 1
 
-sensor_focal_length: 20
-sensor_width: 10
-sensor_height: 10
-sensor_pitch: 1.13  # 0.349
-sensor_yaw: 0
+sensor_focal_length: 25
+sensor_width: 20
+sensor_height: 50
+sensor_pitch: 1.57  # 0.349
+sensor_yaw: 1.57

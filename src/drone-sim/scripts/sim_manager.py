@@ -388,22 +388,23 @@ class SimManager:
             vehicle_marker.header.stamp = time
             vehicle_marker.ns = "vehicle_pose"
             vehicle_marker.id = veh.id_num
-            vehicle_marker.type = Marker.ARROW
+            vehicle_marker.type = Marker.MESH_RESOURCE
             vehicle_marker.action = Marker.ADD
             vehicle_marker.lifetime = rospy.Duration()
             vehicle_marker.color.r = 0
-            vehicle_marker.color.g = 1
-            vehicle_marker.color.b = 0
+            vehicle_marker.color.g = 0
+            vehicle_marker.color.b = 1
             vehicle_marker.color.a = 1
-            vehicle_marker.scale.x = 20
-            vehicle_marker.scale.y = 10
-            vehicle_marker.scale.z = 10
-
+            vehicle_marker.scale.x = 5
+            vehicle_marker.scale.y = 5
+            vehicle_marker.scale.z = 5
+            vehicle_marker.mesh_use_embedded_materials = True
+            vehicle_marker.mesh_resource = "package://simple_drone_sim/meshes/drone.dae"
             vehicle_marker.pose.position.x = veh.x
             vehicle_marker.pose.position.y = veh.y
             vehicle_marker.pose.position.z = veh.z
 
-            quat = quaternion_from_euler(0, 0, veh.psi)
+            quat = quaternion_from_euler(1.57, 0, veh.psi)
             vehicle_marker.pose.orientation.x = quat[0]
             vehicle_marker.pose.orientation.y = quat[1]
             vehicle_marker.pose.orientation.z = quat[2]
