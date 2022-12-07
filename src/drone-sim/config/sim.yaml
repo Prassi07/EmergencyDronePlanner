@@ -49,6 +49,49 @@ targets:
     - {id: 18, x: 46.2056951460886,  y: -219.84030875476904,  heading: 1.1680660484218022, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
     - {id: 19, x: -199.07101587042467,  y: 168.83006387363685,  heading: 1.7303678347109102, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
 
+# targets:
+#     - {id: 0, x: 54.350516940969385,  y: 207.3705776463957,  heading: 0.43109947917276076, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 1, x: 42.25085307583703,  y: 83.31040619651122,  heading: 5.9207637645875275, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 2, x: 197.9406651484553,  y: -16.14236595397128,  heading: 4.668636543070979, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 3, x: 182.74930023476884,  y: 41.64629920995151,  heading: 5.569208139722604, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 4, x: -198.17218623953812,  y: -108.98409282391503,  heading: 5.130262338042232, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 5, x: 68.40156761093306,  y: 63.980769632182785,  heading: 3.596376806697813, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 6, x: -203.75062509546495,  y: 106.90006637690249,  heading: 2.673670928521151, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 7, x: 166.58304080832642,  y: -11.103854048230346,  heading: 0.5290381965587355, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 8, x: -98.0705287719798,  y: 63.19198136784905,  heading: 4.881009391106011, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 9, x: -200.11219243184098,  y: 76.07717786339998,  heading: 3.7825391254497984, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 10, x: 56.02623328398073,  y: 42.02061672276773,  heading: 5.46558235964083, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 11, x: 19.39691947336243,  y: -173.259868158689,  heading: 3.0626752148205023, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 12, x: 123.24300499207857,  y: 45.97725843762288,  heading: 1.0910264459528922, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 13, x: -14.29910236167899,  y: -92.89665574980725,  heading: 0.0698901190519113, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 14, x: 24.75368509604391,  y: -175.31992564124505,  heading: 1.0182269205017758, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 15, x: -200.32340307460527,  y: -152.76156151692254,  heading: 4.110561270674674, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 16, x: 27.239962994560756,  y: 116.51062648983952,  heading: 1.175148344231385, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 17, x: 211.77066069315123,  y: 212.9758197136543,  heading: 1.9197292615444523, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 18, x: -75.58508117984206,  y: 185.33367216883238,  heading: 3.640929382777119, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 19, x: -87.83676246897906,  y: -108.107942109007,  heading: 3.6471157815050073, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+
+# targets:
+#     - {id: 0, x: 144.5080405390832,  y: 45.70038687746654,  heading: 0.8972142360288932, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 1, x: -128.8529134309916,  y: 126.46665752880642,  heading: 5.332473160382136, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 2, x: 46.25922879909484,  y: 137.29435031299153,  heading: 1.7181075379943112, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 3, x: -145.8613417946054,  y: -40.69061435875659,  heading: 0.6874214171144901, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 4, x: -207.5430891066553,  y: 125.48826544747874,  heading: 5.12187824249642, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 5, x: -114.33009594216952,  y: -153.42944635567196,  heading: 6.0962377829645265, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 6, x: -207.4141635594536,  y: -148.74571585639814,  heading: 0.7955652596644849, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 7, x: -137.95712333123407,  y: 203.2945453584128,  heading: 5.09792173504798, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 8, x: -178.8026959943527,  y: 190.72405276633833,  heading: 1.1274066469276542, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 9, x: 135.4861856407199,  y: -30.219456511040562,  heading: 3.8294718832853785, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 10, x: 158.61117436018094,  y: -15.21069903302859,  heading: 2.0688232811657885, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 11, x: -0.7136196477204635,  y: 163.1675708310683,  heading: 0.9875913555149666, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 12, x: 88.78981470812556,  y: 63.03961474799996,  heading: 0.27768190416869326, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 13, x: 211.48158511504357,  y: -22.035911596642023,  heading: 0.6057855114685187, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 14, x: -146.2367707296002,  y: -81.77761683790803,  heading: 1.5516730106115917, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 15, x: 45.61835154497686,  y: -17.560700555176226,  heading: 1.5659396310852447, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 16, x: -214.98417919067646,  y: 104.48283719970533,  heading: 5.36239119991879, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 17, x: -50.803412006732685,  y: -101.76998062522435,  heading: 2.0370626759692176, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 18, x: 8.965690424144611,  y: 218.25012032523972,  heading: 2.591321470463132, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+#     - {id: 19, x: 180.1086435399007,  y: -88.45682651718238,  heading: 3.0523844478762276, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
 
 
 obstacles:
