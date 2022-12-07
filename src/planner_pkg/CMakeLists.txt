@@ -198,10 +198,15 @@ include_directories(
 # )
 
 add_executable(landing_planner src/landing_planner/planner_ros.cpp src/landing_planner/landing_planner.cpp)
+add_executable(coverage_planner src/coverage_planner/coverage_planner_node.cpp src/coverage_planner/coverage_planner.cpp)
 
 add_dependencies(landing_planner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(coverage_planner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(landing_planner
+    ${catkin_LIBRARIES}
+)
+target_link_libraries(coverage_planner
     ${catkin_LIBRARIES}
 )
 
