@@ -83,13 +83,13 @@ class Environment:
         if obsts is None or len(obsts) == 0:
             obstacles = []
             idx = num_obst
-            while idx >= 0:
+            while idx > 0:
                 obst = Obstacle(
                     id=idx,
-                    init_x=np.random.uniform(-600, 600),
-                    init_y=np.random.uniform(-600, 600),
-                    width=20.0,
-                    length=20.0,
+                    init_x=np.random.uniform(-220, 220),
+                    init_y=np.random.uniform(-220, 220),
+                    width=5.0,
+                    length=5.0,
                     height=100.0,
                     speed=0.0,
                     hold_heading_time=1.
@@ -98,8 +98,8 @@ class Environment:
                 if not obst.is_in_collision(self.init_x, self.init_y, 40.0):
                     obstacles.append(obst)
                     idx = idx - 1
-            # for o in obstacles:
-            #     print(str(o))
+            for o in obstacles:
+                print(str(o))
             return obstacles
         else:
             obstacles = [
@@ -128,12 +128,12 @@ class Environment:
             targets = []
             idx = 0
             while idx < n_rand_targets:
-                init_x=np.random.uniform(-600, 600)
-                init_y=np.random.uniform(-600, 600)
+                init_x=np.random.uniform(-220, 220)
+                init_y=np.random.uniform(-220, 220)
                 
                 in_col = False
                 for obst in self.obstacles:
-                    if obst.is_in_collision(init_x, init_y, 0, 40.0):
+                    if obst.is_in_collision(init_x, init_y, 0, 10.0):
                         in_col = True
                 if not in_col:
                     target = Target(
@@ -148,8 +148,8 @@ class Environment:
                     )
                     targets.append(target)
                     idx = idx + 1
-            # for t in targets:
-            #     print(str(t))
+            for t in targets:
+                print(str(t))
             return targets
         # when targets are specified
         else:
@@ -249,12 +249,16 @@ class Environment:
                 # else keep trying to navigate to next waypoint
                 
                 else:
-                    omega, z_d = self.vehicle[i].go_to_goal(self.max_omega, self.max_zvel,
+                    omega, z_d, dx, dy = self.vehicle[i].go_to_goal(self.max_omega, self.max_zvel,
                                                         next_position, self.K_p,
                                                         self.K_p_z)
+                    if abs(dx) > self.hvel:
+                        dx = math.copysign(self.hvel, dx)
+                    if abs(dy) > self.hvel:
+                        dy = math.copysign(self.hvel, dy)
                     self.vehicle[i].psi += self.del_t * omega
-                    self.vehicle[i].x += self.del_t * self.hvel * math.cos(self.vehicle[i].psi)
-                    self.vehicle[i].y += self.del_t * self.hvel * math.sin(self.vehicle[i].psi)
+                    self.vehicle[i].x += self.del_t * dx
+                    self.vehicle[i].y += self.del_t * dy
                     self.vehicle[i].z += self.del_t * z_d
 
 

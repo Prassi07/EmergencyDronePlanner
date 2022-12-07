@@ -3,19 +3,19 @@ init_y: 0  # initial y-pos
 init_z: 20  # initial z-pos
 init_psi: 0  # initial heading
 
-max_omega: 100.0  # drone max angular velocity
+max_omega: 1.0  # drone max angular velocity
 max_zvel: 5  # drone max vertical velocity
 
 vehicle_l: 3  # vehicle list for visualization
 vehicle_num: $(arg vehicle_num)
 
-hvel: 30  # vehicle x-y velocity
+hvel: 10  # vehicle x-y velocity
 vvel: 2  # vehicle z-velocity
 
 # number of random targets & obstalces
 # -1 if providing custom list of targets
-n_rand_targets: -1
-n_rand_obst: -1
+n_rand_targets: 10
+n_rand_obst: 75
 
 del_t: .02  # timestep between sim updates
 
@@ -28,220 +28,94 @@ K_p: 10  # PID angular proportionality constant
 K_p_z: 0.01  # PID z-axis proportionality constant
 
 targets:
-    - {id: 0, x: -373.7618068531434,  y: -177.30916266630055,  heading: 2.200571092775749, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 1, x: 569.9038376840947,  y: 87.80170691142735,  heading: 2.4006544665268224, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 2, x: 79.30058595413527,  y: -383.126015478516,  heading: 1.9665834833106735, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 3, x: 49.45986445913604,  y: 436.7187964772065,  heading: 0.5944576861540131, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 4, x: -327.05256582509827,  y: -546.6185035114592,  heading: 4.65566593511778, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 5, x: 5.833538078783931,  y: 176.71739728896227,  heading: 5.363894624411467, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 6, x: -572.0111180621705,  y: -486.6164343825312,  heading: 4.488023576512696, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 7, x: 81.28967859381567,  y: -584.5611298126897,  heading: 2.359908019653616, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 8, x: -376.7013963353206,  y: 177.7279810356689,  heading: 3.8307831487472885, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
-    - {id: 9, x: -557.3331879697059,  y: -498.8000145504366,  heading: 3.1128027457442413, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 0, x: 51.551044627636315,  y: 149.8029287662543,  heading: 3.378180793959543, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 1, x: 10.974144160580153,  y: 30.040757437172914,  heading: 4.508843153595021, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 2, x: 0.5680554085412552,  y: -2.664048919196034,  heading: 4.672608384214387, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 3, x: 156.8464087510376,  y: -211.03092801199222,  heading: 0.30215158640044787, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 4, x: -160.88091999108138,  y: 181.3921102556269,  heading: 1.1403573889711118, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 5, x: -80.69773372799929,  y: -203.699142226512,  heading: 0.5070628325206488, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 6, x: 177.2074932012082,  y: -8.196788203943271,  heading: 5.038209188479517, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 7, x: 157.66459842688243,  y: 159.37324549272654,  heading: 4.081182485142326, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 8, x: 24.669747468224273,  y: 26.568956842395806,  heading: 4.437959305981657, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
+    - {id: 9, x: -162.68783111131904,  y: -90.7619464737769,  heading: 2.9456967368377964, linear_speed: 0.0, angular_speed: 0.0, linear_speed_std: 0.0, angular_speed_std: 0.0}
 
 
 obstacles:
-    - {id: 200, x: 448.7735628021578,  y: 371.49895838871953,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 199, x: -516.1905006379188,  y: 296.92800010807366,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 198, x: 328.09106900972733,  y: -245.03220820592145,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 197, x: -197.45802959387356,  y: -540.2798151827108,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 196, x: 8.28712332126645,  y: -569.9041479467004,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 195, x: 414.8909957531556,  y: -566.5636950394625,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 194, x: 278.09965546317346,  y: -488.8739810156668,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 193, x: 454.39024454055425,  y: 68.56395815421843,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 192, x: -502.0993807408129,  y: -55.07425223416533,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 191, x: -149.69590800605795,  y: 367.18064425375053,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 190, x: -171.12010784794103,  y: 175.44198821730674,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 189, x: 115.06293804852362,  y: 202.3021973561265,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 188, x: -96.78127362411055,  y: -6.371974383639895,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 187, x: 139.617383472887,  y: 83.88066864909592,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 186, x: -347.7406111826722,  y: 480.2102174836655,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 185, x: 264.9561158391092,  y: 154.30555319560153,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 184, x: 503.75726211571873,  y: 523.2068023157135,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 183, x: -304.0897718174001,  y: -248.72892260637087,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 182, x: 430.28316339474577,  y: -180.42870801709552,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 181, x: 151.21782852661477,  y: -397.4660346087277,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 180, x: 464.29063965193427,  y: 94.23438776797911,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 179, x: -351.21255759972405,  y: 505.97509025544355,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 178, x: -401.8540834743359,  y: 258.72741159652037,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 177, x: -518.5031116639997,  y: 234.44533953739756,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 176, x: 191.59120439143726,  y: -466.9186503104239,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 175, x: -442.0488168673151,  y: -575.3781827626186,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 174, x: -219.7835992130747,  y: -494.49384514501554,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 173, x: 522.5673543457895,  y: -486.4023741879181,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 172, x: 516.0902325167458,  y: 302.43729443809525,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 171, x: -37.408092247869945,  y: -390.903392197239,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 170, x: -117.66898104138039,  y: 73.08787199021833,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 169, x: 362.0455721781657,  y: -202.91618208236082,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 168, x: 383.6754647875746,  y: -108.67754592001842,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 167, x: -543.9527662581887,  y: -327.7869755294425,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 166, x: 132.85298547118964,  y: 594.3538703690365,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 165, x: -264.5429010619631,  y: -469.32203469281353,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 164, x: 365.4544398680923,  y: -8.808715019933857,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 163, x: -412.528471230089,  y: -44.115377913417774,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 162, x: -174.8654172780603,  y: -528.6533771281184,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 161, x: -169.35660353462185,  y: -390.2076532865579,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 160, x: -323.1860016204033,  y: 461.485196326558,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 159, x: 179.93043011336692,  y: -381.1487700743603,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 158, x: 19.359461663082243,  y: -3.526079606121698,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 157, x: 439.3529369640555,  y: 144.89113848601392,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 156, x: 418.95213371822786,  y: 139.8349408732024,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 155, x: 445.07110321848927,  y: -67.07277957218798,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 154, x: 270.0212453737953,  y: 223.0266416883585,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 153, x: -301.3094716004113,  y: 459.09808508495144,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 152, x: -527.2891559303772,  y: 477.2061129453307,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 151, x: 229.63453384900924,  y: -345.04280663629197,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 150, x: -114.85304325682728,  y: -26.68144396038383,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 149, x: -17.202534772368608,  y: -390.104735567325,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 148, x: -131.16848931972606,  y: -408.16334790822674,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 147, x: 534.7879509165423,  y: -253.86164100431643,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 146, x: -369.77320854508827,  y: -77.63088878246424,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 145, x: -218.07709609016592,  y: -489.6640276711041,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 144, x: -7.800389633935083,  y: -495.82197226265987,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 143, x: -450.1450873950639,  y: 32.52096335827787,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 142, x: -405.06285555588016,  y: 452.7677990819557,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 141, x: -438.873202354541,  y: 363.6616511187798,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 140, x: -291.6794283679195,  y: 579.716728966983,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 139, x: 16.9766193954772,  y: -451.5367483289554,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 138, x: 54.63664189741985,  y: -95.70517249630859,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 137, x: -570.7663310223503,  y: 413.8263778299345,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 136, x: -442.98677784117467,  y: -404.1227021645393,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 135, x: -402.870096535043,  y: 308.9995395241025,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 134, x: 14.191978334459463,  y: 21.88427986163242,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 133, x: 505.05230169995275,  y: 236.01582286951316,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 132, x: -355.09103196229125,  y: -302.19466834504357,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 131, x: 196.18088744418776,  y: 120.12215448790721,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 130, x: -252.54507063858387,  y: -367.3385938176366,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 129, x: -493.8480777659204,  y: 479.0532251171069,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 128, x: -24.044610692279093,  y: -569.350261033563,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 127, x: -145.1799382312363,  y: -59.67740841834632,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 126, x: 507.00923034374273,  y: -505.0346405558889,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 125, x: -221.2040996168086,  y: 537.6116727412941,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 124, x: 234.53423910853962,  y: 488.5290848649645,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 123, x: -553.3581752960645,  y: 96.11968455131716,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 122, x: -262.397638220129,  y: 290.70601551932725,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 121, x: 105.70799781916492,  y: 358.35062587421044,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 120, x: -272.6575545467991,  y: -55.234918703770404,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 119, x: -74.59939583680296,  y: 322.3766878151325,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 118, x: 136.85710797034983,  y: 355.6121364608375,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 117, x: -330.3592627246302,  y: -450.17480353179394,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 116, x: -419.5012358470631,  y: -328.1779624301094,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 115, x: -263.37273208841293,  y: -298.49925467654003,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 114, x: 261.49105827728795,  y: -434.52040282420353,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 113, x: -99.33674219475097,  y: 327.6770469771167,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 112, x: -499.08196033798424,  y: -34.22493231194733,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 111, x: 121.96294435470497,  y: -293.1441664429217,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 110, x: 362.77293011164045,  y: -296.38007219741337,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 109, x: -228.36259319275,  y: -563.8267357014959,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 108, x: -550.5271423538612,  y: 343.25449960878655,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 107, x: 25.75878214183922,  y: 118.43925981638972,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 106, x: 30.426363778224754,  y: 544.1556085240695,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 105, x: -24.574460116840328,  y: -340.75379549577923,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 104, x: 455.64535869144083,  y: -536.0469678874528,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 103, x: 209.9086060458876,  y: -283.76247444997233,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 102, x: 111.83860700835112,  y: 517.3936349227868,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 101, x: -499.3683101750834,  y: 420.13386702155753,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 100, x: 536.6848979284139,  y: 165.14448933782728,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 99, x: 399.05642851088874,  y: -145.0759037850317,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 98, x: -472.60223643174226,  y: -314.29934753579295,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 97, x: -172.68504634051084,  y: -55.39134402775176,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 96, x: 105.3727947059624,  y: 340.82232600161717,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 95, x: 420.00039983589136,  y: 322.7205737370191,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 94, x: -440.0783615948194,  y: 187.24695240178892,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 93, x: 153.6102798025679,  y: 29.681784513309594,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 92, x: 311.84354189981934,  y: 313.78099819648696,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 91, x: -546.5226705183069,  y: 520.7607149042985,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 90, x: 281.8016481334628,  y: -235.05741920174341,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 89, x: -112.83251771122542,  y: -330.42145987272124,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 88, x: -435.34356577017206,  y: 466.1706755224418,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 87, x: -246.09871891441355,  y: -263.8901897429533,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 86, x: 567.5946370013767,  y: -129.00037897948863,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 85, x: -445.0450076998783,  y: 183.5465135549706,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 84, x: 575.456180935415,  y: -474.73672478971656,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 83, x: -306.27458999545684,  y: -120.27035581441032,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 82, x: -308.8653233671925,  y: -164.25445085814613,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 81, x: 285.5428274822983,  y: 513.2803627812573,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 80, x: -556.8088510703556,  y: -598.919936425027,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 79, x: 420.5579786248328,  y: -152.16922763120715,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 78, x: -494.060747609569,  y: 15.336523556437669,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 77, x: -482.83676955388194,  y: -191.27053815079557,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 76, x: -56.90168178652232,  y: -438.0698925591345,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 75, x: -399.07056090215013,  y: 483.6850774665229,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 74, x: 309.55446506706096,  y: 382.85893733935393,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 73, x: -202.48468570030678,  y: -431.04800277838075,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 72, x: -577.121900947491,  y: 171.45294532916398,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 71, x: -273.24904343956814,  y: 79.88283009519512,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 70, x: 517.5509266148683,  y: 564.7736172931538,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 69, x: 139.5794472629052,  y: 85.58097942981931,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 68, x: -300.13725740442135,  y: 312.03878502446537,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 67, x: 221.92506399086028,  y: -142.2750768238056,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 66, x: 13.582280932926551,  y: -227.1408700192432,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 65, x: -194.06677044936896,  y: -188.53654308633378,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 64, x: 377.6596381244933,  y: 462.71914917534605,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 63, x: 17.597798085196132,  y: 49.86690499933684,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 62, x: 270.1163196526013,  y: 145.2439594581865,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 61, x: -135.25838268469317,  y: -316.61734234576534,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 60, x: 154.8505374402448,  y: -382.6399911373521,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 59, x: 38.389745560049505,  y: -180.4491032628286,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 58, x: -119.46314059683903,  y: 411.4392870533155,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 57, x: -163.07340807568187,  y: -424.36382618207386,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 56, x: -69.35763154386018,  y: 288.395428108174,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 55, x: -109.46692961593317,  y: 90.32431475736223,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 54, x: -223.45959836094482,  y: 195.92896509458012,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 53, x: -195.88448186897784,  y: -470.4764826564734,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 52, x: -395.14581413576474,  y: 508.3530987784843,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 51, x: -403.0702499647499,  y: 566.9765671631537,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 50, x: 423.5279911441763,  y: -19.29425772991135,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 49, x: -592.1873630662634,  y: -591.5045790089447,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 48, x: 201.74210435356144,  y: -543.7487074335226,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 47, x: 298.8071419167784,  y: 483.98653310497116,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 46, x: -213.51326422216908,  y: -213.8828966657013,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 45, x: -328.1175499112016,  y: 517.7086905231974,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 44, x: -71.91931028897443,  y: -425.0357537933112,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 43, x: -79.24307671506597,  y: 504.14267564047645,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 42, x: 182.5537353808113,  y: 279.3681525575861,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 41, x: -208.95190726691715,  y: -465.5334750957253,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 40, x: 479.378776693522,  y: 183.89620075684388,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 39, x: 405.808488635367,  y: 123.8668287687259,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 38, x: 338.5835553704567,  y: -58.80134980449668,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 37, x: -503.96396593347754,  y: 400.7783762636269,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 36, x: -109.90171491470028,  y: -541.1586151911645,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 35, x: -293.9728150077236,  y: -468.17391092634165,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 34, x: 168.07453442380358,  y: 242.77992696691467,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 33, x: -254.77843119963057,  y: 182.93685866905457,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 32, x: 17.170016828586427,  y: 248.0210173127981,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 31, x: -229.28090917444274,  y: 218.34030862667316,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 30, x: -175.31521915732202,  y: 101.61411177115338,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 29, x: 74.72140662936852,  y: -285.9451747115487,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 28, x: -288.7147266933992,  y: 557.5092491571479,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 27, x: 355.06278108318554,  y: -311.12762290317386,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 26, x: 397.9138563205863,  y: -277.90879030080595,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 25, x: -512.6287506524652,  y: 15.118461510143106,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 24, x: 338.6926456758814,  y: -529.3298268400126,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 23, x: -34.90233963493915,  y: -510.3169508605435,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 22, x: 225.74170440884882,  y: 526.5001575827359,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 21, x: -583.4420799846473,  y: 347.9114561467595,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 20, x: 171.96211008219905,  y: 424.6336103303936,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 19, x: 248.7123698257111,  y: -465.14818899552085,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 18, x: 311.03213349516454,  y: -106.84597706599544,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 17, x: 162.3282979125721,  y: -126.52604705253037,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 16, x: 511.9186740683215,  y: 23.42542887609227,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 15, x: -27.11316359090779,  y: -404.5262948311562,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 14, x: -317.8196842659911,  y: 342.0229046266734,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 13, x: -541.3082357023793,  y: -149.41049033568567,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 12, x: -228.94407348067062,  y: 378.9937036671786,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 11, x: 325.0850229850471,  y: 153.50590915542648,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 10, x: -210.3736153990056,  y: 293.36626002988817,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 9, x: 111.99374263459345,  y: -31.347867673292285,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 8, x: -267.1434880560139,  y: 353.03877264869266,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 7, x: 366.32919984749674,  y: -33.54022525076016,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 6, x: -304.00512667497156,  y: -385.13520661349236,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 5, x: -516.6937649694262,  y: 569.9720896369715,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 4, x: -433.1128022075694,  y: -133.21268476657247,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 3, x: 76.0883507440027,  y: -452.47423210648003,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 2, x: -342.8847963382048,  y: -328.81964732660833,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 1, x: -183.2953651843095,  y: -568.7556345773769,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
-    - {id: 0, x: -517.3565183509276,  y: -149.16714935498277,  width: 20.0, length: 20.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 75, x: 190.15103035660877,  y: 139.61160151039246,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 74, x: -205.2458906892181,  y: 206.18523669873844,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 73, x: -82.64452246337027,  y: 70.50047989030338,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 72, x: 33.59670356924275,  y: -51.79166202803921,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 71, x: -204.76713454258368,  y: 142.0517352734651,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 70, x: -14.351803072317011,  y: -40.17234114100114,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 69, x: -33.953799412004514,  y: 56.936016292525494,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 68, x: 33.03004720207187,  y: 8.6663610668692,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 67, x: -208.59057807748607,  y: -174.59584095127894,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 66, x: 75.7791190627828,  y: -160.02125593665173,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 65, x: 194.69759227476436,  y: 212.5101378888616,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 64, x: 123.56848806682711,  y: 139.7931836736148,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 63, x: -168.79532178653633,  y: 144.3666208288925,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 62, x: -209.76767523653896,  y: 214.23435500788224,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 61, x: -13.179980239318155,  y: 137.62716712538145,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 60, x: -200.46644058019612,  y: -178.67985470741434,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 59, x: -31.59555872342014,  y: -79.61523758169761,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 58, x: 208.9194313920957,  y: -191.5957365221006,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 57, x: 182.45668825734919,  y: 80.87953250315485,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 56, x: 161.48634169904585,  y: -48.59997812034942,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 55, x: -69.76535285525435,  y: 136.16416922463662,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 54, x: 102.71218900686426,  y: -11.49068242491012,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 53, x: -19.648289226769407,  y: -131.14521992619925,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 52, x: -126.20774609909952,  y: -58.41454855338213,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 51, x: -140.91262499659732,  y: -19.181638533725817,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 50, x: 46.32491611045663,  y: -76.29723674256593,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 49, x: 74.75888454939565,  y: -106.2408608351357,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 48, x: -203.98333343516225,  y: 140.18098569010044,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 47, x: 200.66554988084266,  y: 66.62619156506327,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 46, x: 137.33549355176615,  y: -139.68708481783378,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 45, x: -139.9177787363219,  y: -22.207402032295306,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 44, x: 196.71137932639652,  y: -91.7601606227716,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 43, x: -122.8589016969478,  y: -177.4534158486357,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 42, x: -97.49819906741504,  y: 135.37701904552398,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 41, x: -143.02738707088812,  y: 94.99511684983929,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 40, x: 20.02589388682236,  y: 181.73429129587117,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 39, x: 106.76964223908493,  y: 104.76129723842132,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 38, x: 106.85783155606765,  y: 95.24897903990893,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 37, x: -69.84469523474297,  y: 64.2239191726689,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 36, x: 42.8090808836464,  y: -205.60067908958678,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 35, x: 12.385271578852667,  y: 98.70401310353776,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 34, x: -201.80407906698642,  y: 31.38219293684122,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 33, x: 134.984929594638,  y: 195.42391684017036,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 32, x: -59.424225100485245,  y: 2.6902732553529063,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 31, x: -72.22594716833535,  y: 162.4626216354945,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 30, x: 0.6291658617855092,  y: -31.783333289671532,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 29, x: 109.42589267504599,  y: -144.29568656233596,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 28, x: -85.71681743211195,  y: 110.44444164554278,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 27, x: -207.2301420877385,  y: -38.19142835507702,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 26, x: -98.09773193813226,  y: 86.48791550624799,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 25, x: -213.83760477128928,  y: -75.1018849064917,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 24, x: 155.7546841263154,  y: 76.27579643277329,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 23, x: 135.11699146726914,  y: 92.08273570725464,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 22, x: 90.66911300895003,  y: 129.94763523714113,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 21, x: 106.62532418744428,  y: -17.280102531003962,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 20, x: 182.7045760002556,  y: -195.8874259395305,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 19, x: 44.76537610552964,  y: -56.372877056719204,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 18, x: -41.37517910553427,  y: 171.18737444414387,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 17, x: 151.3625563675232,  y: 172.19668744113324,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 16, x: -180.50153661103917,  y: -121.51931191307754,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 15, x: -146.96886190752878,  y: 14.424683007886046,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 14, x: -185.56139845002934,  y: 62.0158009058141,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 13, x: -16.860296230250384,  y: 42.08210550791205,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 12, x: 201.2515170608251,  y: -60.39981385222504,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 11, x: 26.20022740816418,  y: 80.27162019502748,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 10, x: -96.11896482587113,  y: 190.02730929786856,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 9, x: -166.3881910755693,  y: 95.9890154231465,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 8, x: 195.4114253400187,  y: -217.80767885211117,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 7, x: -27.900557941052796,  y: 12.404898288809022,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 6, x: -103.55914460669683,  y: 99.863425639083,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 5, x: -196.11572109275264,  y: 27.573480285230517,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 4, x: -206.11249906032708,  y: 197.7005003843031,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 3, x: 58.90068091958244,  y: 186.18035225721917,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 2, x: -108.19202330308508,  y: -202.51295032258042,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
+    - {id: 1, x: -113.32537118579747,  y: 80.36942261163176,  width: 5.0, length: 5.0, height: 100.0, speed: 0.0, hold_heading_time: 1.0}
 
 
 sensor_a: 1

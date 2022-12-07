@@ -88,7 +88,7 @@ class Vehicle:
         setpoints.z = 0
         self.setpoint_pub.publish(setpoints)
     
-        return omega, z_d
+        return omega, z_d, e[0] * K_p, e[1] * K_p
 
     def position_uncertainty(self):
         '''

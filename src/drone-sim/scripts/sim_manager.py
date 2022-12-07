@@ -51,9 +51,9 @@ class SimManager:
         self.sim_env = self.env_setup()
         self.vehicle_traj_list = [[] for v in range(self.sim_env.vehicle_num)]
         
-        self.map_size = 1500.0 # meters
+        self.map_size = 500.0 # meters
         self.map_resolution = 1.0  # meters
-        self.coverage_size = 100.0 # meters
+        self.coverage_size = 50.0 # meters
         self.covered_value = 50.0
         self.map_voxels = int(self.map_size / self.map_resolution)
         self.coverage_map = np.ones(self.map_voxels**2, dtype=int)

@@ -40,7 +40,7 @@ class BehaviorExecutive(object):
         self.state = BehaviorStates.INIT
 
         # meters to consider a wp reached
-        self.reached_thresh = 10.0
+        self.reached_thresh = 5.0
 
         self._waypoint_dist_remain_pub = rospy.Publisher(
             "/behavior_executive/distance_to_wp", Float32, queue_size=10
