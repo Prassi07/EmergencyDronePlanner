@@ -1,5 +1,7 @@
 #include "../../include/landing_planner/landing_planner.h"
 
+using namespace std;
+
 LandingPlanner::LandingPlanner(){
     obstacle_cost = 100;
     goal_updated = false;
@@ -94,9 +96,13 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
     start->f = start->g;
     start->parent = NULL;
     start->time = max_steps;
+    
+    int current_iter = 0;
 
-    Node goalNode = goal_locations[0];
-    int goal_key;
+    Node goalNode = goal_locations[current_iter]; // original
+    // int goal_key; // original
+    vector<int> goal_keys;
+    
     open_list.push(start);
     // ROS_INFO("Setup A star");
     bool pathFound = false;
@@ -106,13 +112,26 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
         int curr_key = computeKey(curr_node->x, curr_node->y);
         // ROS_INFO("Here1");
         if(closed_list.count(curr_key) == 0 ){
-            closed_list.insert({curr_key, curr_node});
 
+            closed_list.insert({curr_key, curr_node});
+            
             if(*curr_node == goalNode){
+
+                goal_keys.push_back(curr_key);
+                current_iter++;
                 pathFound = true;
-                goal_key = curr_key;
                 ROS_INFO("Found Path, Est Battery Time remaining: %d", curr_node->time);
-                break; //Exit if we seem to reach the goal node
+                
+                for (int i = current_iter; i < goal_locations.size(); i++) {
+                    int key = computeKey(goal_locations[i].x,goal_locations[i].y);
+                    if (closed_list.count(key) == 0) {
+                        goalNode = goal_locations[i];
+                        break;
+                    }
+                    else { 
+                        goal_keys.push_back(key);
+                    }
+                }
             }
 
             for(int dir = 0; dir < 8; dir++)
@@ -154,7 +173,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
     int pathLength = 0;
     if(pathFound){
         ROS_INFO("Backtracking..");
-        Node* backtrackNode = closed_list.at(goal_key);
+        Node* backtrackNode = closed_list.at(goal_keys[0]);
         while(backtrackNode->parent != NULL){
             simple_drone_sim::Waypoint wp;
             wp.position.position.x = (backtrackNode->x + x_offset)*map_resolution;
