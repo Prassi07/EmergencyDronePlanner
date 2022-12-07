@@ -130,6 +130,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
                     }
                     else { 
                         goal_keys.push_back(key);
+                        current_iter++;
                     }
                 }
             }
@@ -170,7 +171,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
             
     }
 
-    int pathLength = 0, best_cost = 0, curr_cost;
+    int pathLength = 0, best_cost = 0, curr_cost, best_batt, curr_batt;
     vector<simple_drone_sim::Waypoint> curr_path, best_path;
     curr_path.reserve(1000);
     best_path.reserve(1000);
@@ -181,6 +182,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
                 pathLength = 0;
                 Nodeptr backtrackNode = closed_list.at(goal_keys[i]);
                 best_cost = backtrackNode->g;
+                best_batt = backtrackNode->time;
                 while(backtrackNode->parent != NULL){
                     simple_drone_sim::Waypoint wp;
                     wp.position.position.x = (backtrackNode->x + x_offset)*map_resolution;
@@ -191,12 +193,15 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
                     pathLength++;
                 }
                 best_cost = best_cost/pathLength;
+                ROS_WARN_STREAM("Best Path:: Length: " << pathLength << " Avg. Cost: " << best_cost << " Batt Rem: " << best_batt);
+
             }
             else{
                 int newPathLength = 0;
                 curr_path.clear();
                 Nodeptr backtrackNode = closed_list.at(goal_keys[i]);
                 curr_cost = backtrackNode->g;
+                curr_batt = backtrackNode->time;
                 while(backtrackNode->parent != NULL){
                     simple_drone_sim::Waypoint wp;
                     wp.position.position.x = (backtrackNode->x + x_offset)*map_resolution;
@@ -208,13 +213,24 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
                 }
 
                 curr_cost = curr_cost/newPathLength;
-
-                if(newPathLength > pathLength){
-                    if(curr_cost <= best_cost){
+                ROS_WARN_STREAM("Best Path:: Length: " << pathLength << " Avg. Cost: " << best_cost << " Batt Rem: " << best_batt);
+                ROS_WARN_STREAM("Curr Path:: Length: " << newPathLength << " Avg. Cost: " << curr_cost << " Batt Rem: " << curr_batt);
+                if(curr_cost <= best_cost){
+                    if(curr_cost == best_cost){
+                        if(newPathLength > pathLength){
+                            best_path.clear();
+                            best_path = curr_path;
+                            pathLength = newPathLength;
+                            best_cost = curr_cost;
+                            best_batt = curr_batt;
+                        }
+                    }
+                    else{
                         best_path.clear();
                         best_path = curr_path;
                         pathLength = newPathLength;
                         best_cost = curr_cost;
+                        best_batt = curr_batt;
                     }
                 }
             }
