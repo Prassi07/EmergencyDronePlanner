@@ -60,6 +60,7 @@ class LandingPlanner{
         ~LandingPlanner();
 
         int planToGoals(simple_drone_sim::Plan& plan);
+        int naivePlanner(simple_drone_sim::Plan& plan);
         
         void updateMap(const nav_msgs::OccupancyGrid::ConstPtr&);
 
@@ -91,5 +92,6 @@ class LandingPlanner{
         int getMapIndex(int, int);
         void updateGoalCells();
         void updateStart();
+        bool reachedAnyGoal(std::shared_ptr<Node>);
 
 };

@@ -227,3 +227,115 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
     return pathLength;
 
 }
+
+bool LandingPlanner::reachedAnyGoal(std::shared_ptr<Node> curr_node){
+    for(int i = 0; i < goal_locations.size(); i++){
+        if(*curr_node == goal_locations[i])
+            return true;
+    }
+    
+    return false;
+}
+
+
+int LandingPlanner::naivePlanner(simple_drone_sim::Plan& plan){
+    updateGoalCells();
+    updateStart();
+
+    //Setup start node, closed and open lists.
+    CLOSED_LIST closed_list;
+    OPEN_LIST open_list;
+
+    Nodeptr start = std::make_shared<Node>(start_node.x, start_node.y);
+    start->key = computeKey(start_node.x, start_node.y);
+    start->g = 0;
+    start->h = 0;
+    start->f = start->g;
+    start->parent = NULL;
+    start->time = max_steps;
+    
+    int current_iter = 0;
+
+    Node goalNode = goal_locations[current_iter]; // original
+    // int goal_key; // original
+    int goal_key;
+    
+    open_list.push(start);
+    // ROS_INFO("Setup A star");
+    bool pathFound = false;
+    while(!open_list.empty() && closed_list.count(computeKey(goalNode.x, goalNode.y)) == 0 ){
+        Nodeptr curr_node = open_list.top();
+        open_list.pop();
+        int curr_key = computeKey(curr_node->x, curr_node->y);
+        // ROS_INFO("Here1");
+        if(closed_list.count(curr_key) == 0 ){
+
+            closed_list.insert({curr_key, curr_node});
+            
+            if(reachedAnyGoal(curr_node)){
+                goal_key = curr_key;
+                pathFound = true;
+                ROS_INFO("Found Path, Est Battery Time remaining: %d", curr_node->time);
+                break;
+            }
+
+            for(int dir = 0; dir < 8; dir++)
+            {
+                int newx = curr_node->x + dX[dir];
+                int newy = curr_node->y + dY[dir];
+                int newt = curr_node->time - 1;
+
+                bool expand = false;
+                if(closed_list.count(computeKey(newx, newy)) == 0)
+                    expand = true;
+                else{
+                    if(closed_list.at(computeKey(newx, newy))->time < newt)
+                        expand = true;
+                }
+
+                if(expand){
+                    if (newx >= 0 && newx < x_size && newy >= 0 && newy < y_size && newt > 50)
+                    {
+                        if (((int)map[getMapIndex(newx, newy)] >= 0) && ((int)map[getMapIndex(newx,newy)] < obstacle_cost))  //if free
+                        {   
+                            int g_s_dash = curr_node->g + 1;
+                            int h_s_dash = 0;
+                            Nodeptr successor = std::make_shared<Node>(newx, newy);
+                            successor->parent = curr_node;
+                            successor->g = g_s_dash;
+                            successor->h = h_s_dash;
+                            successor->f = g_s_dash + h_s_dash;
+                            successor->time = newt;
+                            open_list.push(successor);
+                        }
+                    }
+                }
+            }
+        }
+            
+    }
+
+    int pathLength = 0;
+    vector<simple_drone_sim::Waypoint> best_path;
+    best_path.reserve(1000);
+    if(pathFound){
+        ROS_INFO("Backtracking..");
+        pathLength = 0;
+        Nodeptr backtrackNode = closed_list.at(goal_key);
+        while(backtrackNode->parent != NULL){
+            simple_drone_sim::Waypoint wp;
+            wp.position.position.x = (backtrackNode->x + x_offset)*map_resolution;
+            wp.position.position.y = (backtrackNode->y + y_offset)*map_resolution;
+            wp.position.position.z = robot_z;
+            best_path.push_back(wp);
+            backtrackNode = backtrackNode->parent;
+            pathLength++;
+        }
+        plan.plan = best_path;
+        plan.time_required = pathLength*0.12;
+        plan.battery_required = plan.time_required/2.4;
+        std::reverse(plan.plan.begin(), plan.plan.end());
+    }
+    return pathLength;
+
+}
