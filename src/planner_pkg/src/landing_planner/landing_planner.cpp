@@ -171,19 +171,47 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
     }
 
     int pathLength = 0;
+    vector<simple_drone_sim::Waypoint> curr_path, best_path;
     if(pathFound){
         ROS_INFO("Backtracking..");
-        Node* backtrackNode = closed_list.at(goal_keys[0]);
-        while(backtrackNode->parent != NULL){
-            simple_drone_sim::Waypoint wp;
-            wp.position.position.x = (backtrackNode->x + x_offset)*map_resolution;
-            wp.position.position.y = (backtrackNode->y + y_offset)*map_resolution;
-            wp.position.position.z = robot_z;
-            plan.plan.push_back(wp);
-            backtrackNode = backtrackNode->parent;
-            pathLength++;
-        }
+        for(int i = 0; i < goal_keys.size(); i++){
+            if(i == 0){
+                pathLength = 0;
+                Node* backtrackNode = closed_list.at(goal_keys[i]);
+                while(backtrackNode->parent != NULL){
+                    simple_drone_sim::Waypoint wp;
+                    wp.position.position.x = (backtrackNode->x + x_offset)*map_resolution;
+                    wp.position.position.y = (backtrackNode->y + y_offset)*map_resolution;
+                    wp.position.position.z = robot_z;
+                    best_path.push_back(wp);
+                    backtrackNode = backtrackNode->parent;
+                    pathLength++;
+                }
+            }
+            else{
+                int newPathLength = 0;
+                curr_path.clear();
+                Node* backtrackNode = closed_list.at(goal_keys[i]);
+                while(backtrackNode->parent != NULL){
+                    simple_drone_sim::Waypoint wp;
+                    wp.position.position.x = (backtrackNode->x + x_offset)*map_resolution;
+                    wp.position.position.y = (backtrackNode->y + y_offset)*map_resolution;
+                    wp.position.position.z = robot_z;
+                    curr_path.push_back(wp);
+                    backtrackNode = backtrackNode->parent;
+                    newPathLength++;
+                }
 
+                if(newPathLength > pathLength){
+                    best_path.clear();
+                    best_path = curr_path;
+                    pathLength = newPathLength;
+                }
+            }
+        }
+        plan.plan = best_path;
+        plan.time_required = pathLength*0.12;
+        plan.battery_required = plan.time_required/2.4;
         std::reverse(plan.plan.begin(), plan.plan.end());
     }
     return pathLength;
