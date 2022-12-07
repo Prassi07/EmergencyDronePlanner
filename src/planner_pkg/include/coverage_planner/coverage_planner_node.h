@@ -57,7 +57,6 @@ class CoveragePlannerNode{
         void OdometryHandler(const simple_drone_sim::PoseStampedArray::ConstPtr& msg);
         void OccupancyGridHandler(const nav_msgs::OccupancyGrid::ConstPtr& msg);
         void ObstacleHandler(const simple_drone_sim::ObstacleArray::ConstPtr& msg);
-        void TargetHandler(const simple_drone_sim::TargetPoses::ConstPtr& msg);
 
         float ros_rate;
         geometry_msgs::PoseStamped robot_pose;

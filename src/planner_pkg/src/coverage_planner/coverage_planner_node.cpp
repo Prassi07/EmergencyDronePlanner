@@ -18,8 +18,9 @@ void CoveragePlannerNode::Run()
             plan.vehicle_id = 0;
             plan.header.frame_id = "local_enu";
             plan.header.stamp = ros::Time::now();
-            int planLength = planner.idiotPlan(plan);
-            if (plan.plan.size() > 0 && _published_count<5)
+            // int planLength = planner.naiveLawnmowerPlan(plan);
+            int planLength = planner.plan(plan);
+            if (plan.plan.size() > 0 && (_published_count < 3))
             {
                 ROS_INFO("Publishing plan:");
                 plan_publisher.publish(plan);
@@ -31,7 +32,7 @@ void CoveragePlannerNode::Run()
                     i++;
                 }
             }
-            _received_map = _received_obstacles = _received_init_pose = false;
+            _received_map = _received_obstacles = false;
         }
         ros::spinOnce();
         rate.sleep();
@@ -42,7 +43,6 @@ void CoveragePlannerNode::OccupancyGridHandler(const nav_msgs::OccupancyGrid::Co
 {
     if (!_received_map)
     {
-        ROS_INFO("Updating map for global planner");
         planner.updateMap(msg);
         _received_map = true;
     }
@@ -52,7 +52,6 @@ void CoveragePlannerNode::ObstacleHandler(const simple_drone_sim::ObstacleArrayC
 {
     if (!_received_obstacles)
     {
-        ROS_INFO("Updating obstacles for global planner");
         planner.updateObstacles(msg);
         _received_obstacles = true;
     }
@@ -62,7 +61,6 @@ void CoveragePlannerNode::OdometryHandler(const simple_drone_sim::PoseStampedArr
 {
     if (!_received_init_pose)
     {
-        ROS_INFO("Updating initial robot pose for global planner");
         planner.setRobotLocation(msg->poses[0]);
         _received_init_pose = true;
     }
