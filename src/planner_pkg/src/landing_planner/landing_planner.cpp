@@ -2,15 +2,29 @@
 
 LandingPlanner::LandingPlanner(){
     obstacle_cost = 100;
+    goal_updated = false;
 }
 LandingPlanner::~LandingPlanner(){}
 
 void LandingPlanner::setBattery(float batt){
     start_battery = batt;
+    time_remaining = 2.4 * start_battery;
+    max_steps = floor(time_remaining/0.12);
 }
 
 inline int LandingPlanner::computeKey(int x, int y){
     return (y*y_size + x);
+}
+
+inline int LandingPlanner::getMapIndex(int x, int y){
+    return (y*y_size + x);
+}
+
+
+int LandingPlanner::estimateOctileDistance(int curr_x, int curr_y, int goal_x, int goal_y){
+    int delta_x = abs(curr_x - goal_x);
+    int delta_y = abs(curr_y - goal_y);
+    return delta_x + delta_y - MIN(delta_x,delta_y);
 }
 
 void LandingPlanner::setTargets(const simple_drone_sim::TargetPoses& targets){
@@ -50,18 +64,24 @@ void LandingPlanner::printInfo(){
     ROS_INFO_STREAM("x_offset: "<< x_offset <<" y_offset: " <<y_offset);
 }
 
-void LandingPlanner::updateCells(){
-    for(Node &n: goal_locations){
-        n.x = (n.x)/(map_resolution) - x_offset;
-        n.y = (n.y)/(map_resolution) - y_offset;
+void LandingPlanner::updateGoalCells(){
+    if(!goal_updated){
+        for(Node &n: goal_locations){
+            n.x = (n.x)/(map_resolution) - x_offset;
+            n.y = (n.y)/(map_resolution) - y_offset;
+        }
+    goal_updated = true;
     }
+}
 
+void LandingPlanner::updateStart(){
     start_node.x = start_node.x/map_resolution - x_offset;
     start_node.y = start_node.y/map_resolution - y_offset;
 }
 
 int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
-    updateCells();
+    updateGoalCells();
+    updateStart();
 
     //Setup start node, closed and open lists.
     CLOSED_LIST closed_list;
@@ -73,6 +93,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
     start->h = 0;
     start->f = start->g;
     start->parent = NULL;
+    start->time = max_steps;
 
     Node goalNode = goal_locations[0];
     int goal_key;
@@ -80,7 +101,6 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
     // ROS_INFO("Setup A star");
     bool pathFound = false;
     while(!open_list.empty() && closed_list.count(computeKey(goalNode.x, goalNode.y)) == 0 ){
-        
         Node *curr_node = open_list.top();
         open_list.pop();
         int curr_key = computeKey(curr_node->x, curr_node->y);
@@ -91,7 +111,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
             if(*curr_node == goalNode){
                 pathFound = true;
                 goal_key = curr_key;
-                ROS_INFO("Found Path");
+                ROS_INFO("Found Path, Est Battery Time remaining: %d", curr_node->time);
                 break; //Exit if we seem to reach the goal node
             }
 
@@ -99,18 +119,29 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
             {
                 int newx = curr_node->x + dX[dir];
                 int newy = curr_node->y + dY[dir];
-                if(closed_list.count(computeKey(newx, newy)) == 0 ){
-                    if (newx >= 0 && newx < x_size && newy >= 0 && newy < y_size)
+                int newt = curr_node->time - 1;
+
+                bool expand = false;
+                if(closed_list.count(computeKey(newx, newy)) == 0)
+                    expand = true;
+                else{
+                    if(closed_list.at(computeKey(newx, newy))->time < newt)
+                        expand = true;
+                }
+
+                if(expand){
+                    if (newx >= 0 && newx < x_size && newy >= 0 && newy < y_size && newt > 50)
                     {
-                        if (((int)map[computeKey(newx, newy)] >= 0) && ((int)map[computeKey(newx,newy)] < obstacle_cost))  //if free
+                        if (((int)map[getMapIndex(newx, newy)] >= 0) && ((int)map[getMapIndex(newx,newy)] < obstacle_cost))  //if free
                         {   
-                            int g_s_dash = curr_node->g + 1;
-                            int h_s_dash = 1;
+                            int g_s_dash = curr_node->g + (int)map[getMapIndex(newx, newy)];
+                            int h_s_dash = estimateOctileDistance(newx, newy, goalNode.x, goalNode.y);
                             Node *successor = new Node(newx, newy);
                             successor->parent = curr_node;
                             successor->g = g_s_dash;
                             successor->h = h_s_dash;
-                            successor->f = g_s_dash;
+                            successor->f = g_s_dash + h_s_dash;
+                            successor->time = newt;
                             open_list.push(successor);
                         }
                     }
@@ -136,7 +167,6 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
 
         std::reverse(plan.plan.begin(), plan.plan.end());
     }
-
     return pathLength;
 
 }

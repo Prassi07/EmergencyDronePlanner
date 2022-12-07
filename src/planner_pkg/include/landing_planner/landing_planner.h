@@ -8,10 +8,18 @@
 #include<queue>
 #include<unordered_map>
 #include<ros/ros.h>
+#include<cmath>
+
+
+#if !defined(MIN)
+#define	MIN(A, B)	((A) < (B) ? (A) : (B))
+#endif
 
 struct Node{
     int key;
     int x, y;
+    int time;
+
     float g, h, f;
     Node* parent;
 
@@ -61,11 +69,12 @@ class LandingPlanner{
     private:
         int x_size, y_size, x_offset, y_offset;
         float map_resolution;
-        
+        int max_steps;
         float obstacle_cost;
-        float start_battery;
+        float start_battery, time_remaining;
         float robot_z;
         
+        bool goal_updated;
         int dX[8] = {-1, -1, -1,  0,  0,  1, 1, 1};
         int dY[8] = {-1,  0,  1, -1,  1, -1, 0, 1};
 
@@ -74,7 +83,10 @@ class LandingPlanner{
 
         std::vector<int8_t, std::allocator<int8_t>> map;
 
+        int estimateOctileDistance(int curr_x, int curr_y, int goal_x, int goal_y);
         int computeKey(int, int);
-        void updateCells();
+        int getMapIndex(int, int);
+        void updateGoalCells();
+        void updateStart();
 
 };

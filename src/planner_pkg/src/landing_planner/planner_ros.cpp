@@ -6,7 +6,7 @@ LandingPlannerNode::LandingPlannerNode(){
     init_battery = false;
     init_robot_pose = false;
     init_targets = false;
-    ros_rate = 10;
+    ros_rate = 1;
 
     planner = LandingPlanner();
 }
@@ -27,7 +27,6 @@ void LandingPlannerNode::Run(){
     ros::spinOnce(); 
     ros::Rate rate(ros_rate);
 
-    ROS_WARN("Here!");
     while(ros::ok()){
         if(init_battery && initialized_map && init_targets && init_robot_pose){
             simple_drone_sim::Plan plan;
@@ -36,9 +35,12 @@ void LandingPlannerNode::Run(){
             plan.header.stamp = ros::Time::now();
             int planLength = planner.planToGoals(plan);
             if(planLength > 0){
-                ROS_INFO("Publishing plan.");
+                ROS_INFO("Publishing plan of length: %d", planLength);
                 plan_publisher.publish(plan);
             }
+            init_battery = false;
+            initialized_map = false;
+            init_robot_pose = false;
         }
         ros::spinOnce();
         rate.sleep();
