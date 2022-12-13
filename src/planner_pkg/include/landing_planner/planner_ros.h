@@ -15,6 +15,7 @@
 #include <std_msgs/Float32.h>
 #include <nav_msgs/OccupancyGrid.h>
 #include <visualization_msgs/Marker.h>
+#include "planner_pkg/PlannerStats.h"
 
 #include "../../include/landing_planner/landing_planner.h"
 
@@ -49,7 +50,7 @@ class LandingPlannerNode{
 
         ros::Subscriber global_plan_sub;
         ros::Subscriber waypoint_num_sub;
-    
+        ros::Publisher stats_pub;
 
         // ROS Publishers
         ros::Publisher plan_publisher;

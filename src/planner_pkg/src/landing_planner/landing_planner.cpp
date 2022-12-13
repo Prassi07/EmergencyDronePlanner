@@ -58,12 +58,12 @@ void LandingPlanner::updateMap(const nav_msgs::OccupancyGrid::ConstPtr& grid){
 }
 
 void LandingPlanner::printInfo(){
-    ROS_INFO_STREAM(" Map size: " << map.size());
-    ROS_INFO_STREAM("Robot Position: " <<  start_node.x << " " << start_node.y);
-    ROS_INFO_STREAM("Number of Landing Zones: " << goal_locations.size());
-    ROS_INFO_STREAM("Robot Battery Info: " << start_battery);
+    // ROS_INFO_STREAM(" Map size: " << map.size());
+    // ROS_INFO_STREAM("Robot Position: " <<  start_node.x << " " << start_node.y);
+    // ROS_INFO_STREAM("Number of Landing Zones: " << goal_locations.size());
+    // ROS_INFO_STREAM("Robot Battery Info: " << start_battery);
 
-    ROS_INFO_STREAM("x_offset: "<< x_offset <<" y_offset: " <<y_offset);
+    // ROS_INFO_STREAM("x_offset: "<< x_offset <<" y_offset: " <<y_offset);
 }
 
 void LandingPlanner::updateGoalCells(){
@@ -120,7 +120,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
                 goal_keys.push_back(curr_key);
                 current_iter++;
                 pathFound = true;
-                ROS_INFO("Found Path, Est Battery Time remaining: %d", curr_node->time);
+                // ROS_INFO("Found Path, Est Battery Time remaining: %d", curr_node->time);
                 
                 for (int i = current_iter; i < goal_locations.size(); i++) {
                     int key = computeKey(goal_locations[i].x,goal_locations[i].y);
@@ -171,12 +171,13 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
             
     }
 
+    states_expanded = closed_list.size();
     int pathLength = 0, best_cost = 0, curr_cost, best_batt, curr_batt;
     vector<simple_drone_sim::Waypoint> curr_path, best_path;
     curr_path.reserve(1000);
     best_path.reserve(1000);
     if(pathFound){
-        ROS_INFO("Backtracking..");
+        // ROS_INFO("Backtracking..");
         for(int i = 0; i < goal_keys.size(); i++){
             if(i == 0){
                 pathLength = 0;
@@ -193,7 +194,7 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
                     pathLength++;
                 }
                 best_cost = best_cost/pathLength;
-                ROS_WARN_STREAM("Best Path:: Length: " << pathLength << " Avg. Cost: " << best_cost << " Batt Rem: " << best_batt);
+                // ROS_WARN_STREAM("Best Path:: Length: " << pathLength << " Avg. Cost: " << best_cost << " Batt Rem: " << best_batt);
 
             }
             else{
@@ -213,8 +214,8 @@ int LandingPlanner::planToGoals(simple_drone_sim::Plan& plan){
                 }
 
                 curr_cost = curr_cost/newPathLength;
-                ROS_WARN_STREAM("Best Path:: Length: " << pathLength << " Avg. Cost: " << best_cost << " Batt Rem: " << best_batt);
-                ROS_WARN_STREAM("Curr Path:: Length: " << newPathLength << " Avg. Cost: " << curr_cost << " Batt Rem: " << curr_batt);
+                // ROS_WARN_STREAM("Best Path:: Length: " << pathLength << " Avg. Cost: " << best_cost << " Batt Rem: " << best_batt);
+                // ROS_WARN_STREAM("Curr Path:: Length: " << newPathLength << " Avg. Cost: " << curr_cost << " Batt Rem: " << curr_batt);
                 if(curr_cost <= best_cost){
                     if(curr_cost == best_cost){
                         if(newPathLength > pathLength){
@@ -291,7 +292,7 @@ int LandingPlanner::naivePlanner(simple_drone_sim::Plan& plan){
             if(reachedAnyGoal(curr_node)){
                 goal_key = curr_key;
                 pathFound = true;
-                ROS_INFO("Found Path, Est Battery Time remaining: %d", curr_node->time);
+                // ROS_INFO("Found Path, Est Battery Time remaining: %d", curr_node->time);
                 break;
             }
 
@@ -330,7 +331,8 @@ int LandingPlanner::naivePlanner(simple_drone_sim::Plan& plan){
         }
             
     }
-
+    
+    states_expanded = closed_list.size();
     int pathLength = 0;
     vector<simple_drone_sim::Waypoint> best_path;
     best_path.reserve(1000);

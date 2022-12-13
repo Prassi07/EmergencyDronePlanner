@@ -80,6 +80,7 @@ class LandingPlanner{
 
         void printInfo();
 
+        int states_expanded;
     private:
         int x_size, y_size, x_offset, y_offset;
         float map_resolution;

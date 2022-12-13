@@ -30,6 +30,7 @@ void LandingPlannerNode::Run(){
     waypoint_num_sub = nh.subscribe("/behavior_executive/waypoint_number", 1, &LandingPlannerNode::WaypointNumHandler, this);
 
     plan_publisher = nh.advertise<simple_drone_sim::Plan>("/planning/landing_zones", 1, true);
+    stats_pub = nh.advertise<planner_pkg::PlannerStats>("/planner/stats", 1);
     ros::spinOnce(); 
     ros::Rate rate(ros_rate);
 
@@ -45,8 +46,13 @@ void LandingPlannerNode::Run(){
             ros::Time s2 = ros::Time::now();
             ros::Duration d = s2 - s1;
             if(planLength > 0){
-                ROS_INFO("Publishing plan of length: %d, Time taken to Plan: %f", planLength, d.toSec());
+                float dt = d.toSec();
+                planner_pkg::PlannerStats stat;
+                stat.time_taken = dt;
+                stat.states_expanded = planner.states_expanded;
+                ROS_INFO("Publishing plan of length: %d, Time taken to Plan: %f", planLength, dt);
                 plan_publisher.publish(plan);
+                stats_pub.publish(stat);
             }
             init_battery = false;
             initialized_map = false;
