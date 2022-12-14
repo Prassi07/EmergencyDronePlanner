@@ -9,3 +9,5 @@ cd EmergencyDronePlanner
 catkin build
 ```
 
+## Acknowledgments
+The simple drone simulator is a heavily-modified version of a simulator developed for several projects, including the ONR Project in the Airlab. Credit belongs to: Andrew Jong, Siva Kailas, Rebecca Martin, Andrew Saba, Prasanna Sriganesh, Rohan Deshpande and Winnie Kuang
